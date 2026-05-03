@@ -1,0 +1,255 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Taxi Language API"
+  description: >-
+    Shared capability definition for the Taxi language API covering schema registry,
+    TaxiQL query execution, type discovery, service discovery, and OpenAPI conversion.
+  tags:
+    - API Description
+    - Data Integration
+    - Open Source
+    - Schema Registry
+    - Semantic Types
+  created: "2026-05-03"
+  modified: "2026-05-03"
+
+binds:
+  - namespace: env
+    keys:
+      TAXI_API_KEY: TAXI_API_KEY
+
+capability:
+  consumes:
+    - type: http
+      namespace: taxi-api
+      baseUri: https://api.taxilang.org
+      description: "Taxi language API for schema management and query execution"
+      authentication:
+        type: apikey
+        key: X-Api-Key
+        value: "{{TAXI_API_KEY}}"
+        placement: header
+      resources:
+        - name: schemas
+          path: /schemas
+          description: "Schema registry operations"
+          operations:
+            - name: list-schemas
+              method: GET
+              description: "List all registered Taxi schemas"
+              inputParameters:
+                - name: namespace
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by namespace"
+                - name: limit
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Maximum results"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: register-schema
+              method: POST
+              description: "Register a new Taxi schema"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  name: "{{tools.name}}"
+                  content: "{{tools.content}}"
+                  version: "{{tools.version}}"
+        - name: compile
+          path: /schemas/compile
+          description: "Schema compilation and validation"
+          operations:
+            - name: compile-schema
+              method: POST
+              description: "Compile and validate a Taxi schema"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  content: "{{tools.content}}"
+        - name: queries
+          path: /queries
+          description: "TaxiQL query execution"
+          operations:
+            - name: execute-query
+              method: POST
+              description: "Execute a TaxiQL query across registered data sources"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  query: "{{tools.query}}"
+                  facts: "{{tools.facts}}"
+        - name: types
+          path: /types
+          description: "Type registry"
+          operations:
+            - name: list-types
+              method: GET
+              description: "List all types across registered schemas"
+              inputParameters:
+                - name: namespace
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by namespace"
+                - name: search
+                  in: query
+                  type: string
+                  required: false
+                  description: "Search by type name"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: services
+          path: /services
+          description: "Service registry"
+          operations:
+            - name: list-services
+              method: GET
+              description: "List all registered services"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: convert-openapi
+          path: /convert/openapi
+          description: "Convert OpenAPI to Taxi"
+          operations:
+            - name: convert-from-openapi
+              method: POST
+              description: "Convert an OpenAPI spec to Taxi schema"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  spec_content: "{{tools.spec_content}}"
+                  namespace: "{{tools.namespace}}"
+
+  exposes:
+    - type: rest
+      port: 8101
+      namespace: taxi-api-rest
+      resources:
+        - path: /v1/schemas
+          operations:
+            - method: GET
+              name: list-schemas
+              description: "List schemas"
+              call: "taxi-api.list-schemas"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: register-schema
+              description: "Register schema"
+              call: "taxi-api.register-schema"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/queries
+          operations:
+            - method: POST
+              name: execute-query
+              description: "Execute TaxiQL query"
+              call: "taxi-api.execute-query"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/types
+          operations:
+            - method: GET
+              name: list-types
+              description: "List types"
+              call: "taxi-api.list-types"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9101
+      namespace: taxi-api-mcp
+      transport: http
+      tools:
+        - name: list-schemas
+          description: "List registered Taxi schemas"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "taxi-api.list-schemas"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: compile-schema
+          description: "Compile and validate a Taxi schema"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "taxi-api.compile-schema"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: execute-query
+          description: "Execute a TaxiQL query across data sources"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "taxi-api.execute-query"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-types
+          description: "List all types in the schema registry"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "taxi-api.list-types"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-services
+          description: "List all registered API services"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "taxi-api.list-services"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: convert-from-openapi
+          description: "Convert an OpenAPI spec to Taxi schema format"
+          hints:
+            readOnly: false
+            openWorld: false
+          call: "taxi-api.convert-from-openapi"
+          outputParameters:
+            - type: object
+              mapping: "$."

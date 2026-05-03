@@ -1,0 +1,39 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://api.taxilang.org/queries",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "query": "find { Movies(ReleaseYear > 2020)[] } as { title : MovieTitle, review : ReviewScore, awards : AwardTitle[] }",
+      "facts": {},
+      "async": false
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "query_id": "qry_20260503_001",
+      "status": "complete",
+      "data": [
+        {
+          "title": "Dune: Part Two",
+          "review": 8.5,
+          "awards": ["Academy Award Nominee", "BAFTA Winner"]
+        },
+        {
+          "title": "Oppenheimer",
+          "review": 9.1,
+          "awards": ["Academy Award Winner - Best Picture", "Golden Globe Winner"]
+        }
+      ],
+      "execution_plan": [
+        "GET https://movies.example.com/movies?releaseYear[gt]=2020",
+        "GET https://reviews.example.com/scores?movieIds=...",
+        "GET https://awards.example.com/by-movie?ids=..."
+      ],
+      "duration_ms": 342
+    }
+  }
+}

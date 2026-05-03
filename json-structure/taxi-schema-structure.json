@@ -1,0 +1,41 @@
+{
+  "name": "Taxi Schema",
+  "description": "Structure documentation for Taxi language schemas covering types, models, services, and semantic annotations",
+  "fields": [
+    {"name": "namespace", "type": "string", "required": false, "description": "Taxi namespace in reverse-domain format (e.g., com.example)"},
+    {"name": "version", "type": "string", "required": false, "description": "Schema version string"},
+    {"name": "types", "type": "array<TypeDefinition>", "required": false, "description": "Semantic primitive types that inherit from built-ins"},
+    {"name": "models", "type": "array<ModelDefinition>", "required": false, "description": "Complex object models with typed fields"},
+    {"name": "enums", "type": "array<EnumDefinition>", "required": false, "description": "Enumerated value types"},
+    {"name": "services", "type": "array<ServiceDefinition>", "required": false, "description": "API and data service declarations with operations"}
+  ],
+  "nested": {
+    "TypeDefinition": {
+      "description": "Semantic type — a named alias of a primitive that carries domain meaning",
+      "fields": [
+        {"name": "name", "type": "string", "description": "Fully qualified type name"},
+        {"name": "inherits", "type": "string", "description": "Base type: String, Int, Decimal, Boolean, Date, etc."},
+        {"name": "annotations", "type": "array<string>", "description": "Applied Taxi annotations"},
+        {"name": "documentation", "type": "string", "description": "Human-readable docs"}
+      ]
+    },
+    "ModelDefinition": {
+      "description": "Object model with semantically typed fields",
+      "fields": [
+        {"name": "name", "type": "string", "description": "Qualified model name"},
+        {"name": "fields", "type": "array<FieldDefinition>", "description": "Model fields"},
+        {"name": "annotations", "type": "array<string>", "description": "Annotations"},
+        {"name": "documentation", "type": "string", "description": "Docs"}
+      ]
+    },
+    "ServiceDefinition": {
+      "description": "API service with HTTP, database, or stream operations",
+      "fields": [
+        {"name": "name", "type": "string", "description": "Service name"},
+        {"name": "kind", "type": "string", "description": "http, database, kafka, grpc"},
+        {"name": "base_url", "type": "string", "description": "Base URL for HTTP services"},
+        {"name": "operations", "type": "array<OperationDefinition>", "description": "Service operations"}
+      ]
+    }
+  }
+}

@@ -1,0 +1,79 @@
+rules:
+  taxi-operation-ids-camel-case:
+    description: Operation IDs must use camelCase
+    message: "operationId '{{value}}' must use camelCase"
+    severity: warn
+    given: "$.paths[*][*].operationId"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-zA-Z0-9]*$"
+
+  taxi-path-kebab-case:
+    description: Path segments must use kebab-case
+    message: "Path segment must use kebab-case: {{path}}"
+    severity: warn
+    given: "$.paths[*]~"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^(/[a-z0-9{}-]+)*$"
+
+  taxi-operation-summary-exists:
+    description: All operations must have a summary
+    message: "Operation at '{{path}}' is missing a summary"
+    severity: error
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: summary
+      function: truthy
+
+  taxi-operation-description-exists:
+    description: All operations must have a description
+    message: "Operation at '{{path}}' is missing a description"
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: description
+      function: truthy
+
+  taxi-response-200-exists:
+    description: All operations must define a 200 response
+    message: "Operation at '{{path}}' must define a 200/201 success response"
+    severity: error
+    given: "$.paths[*][get,post,put,patch,delete].responses"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          anyOf:
+            - required: ["200"]
+            - required: ["201"]
+
+  taxi-tags-title-case:
+    description: Tags must use Title Case
+    message: "Tag '{{value}}' must use Title Case"
+    severity: warn
+    given: "$.tags[*].name"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[A-Z][a-zA-Z0-9 ]*$"
+
+  taxi-info-license:
+    description: API must include license information (open source)
+    message: "Open source API must include license info"
+    severity: warn
+    given: "$.info"
+    then:
+      field: license
+      function: truthy
+
+  taxi-schema-descriptions:
+    description: Component schemas must have descriptions
+    message: "Schema '{{path}}' is missing a description"
+    severity: warn
+    given: "$.components.schemas[*]"
+    then:
+      field: description
+      function: truthy

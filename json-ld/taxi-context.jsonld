@@ -1,0 +1,32 @@
+{
+  "@context": {
+    "@vocab": "https://taxilang.org/vocab/",
+    "schema": "https://schema.org/",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "TaxiSchema": "taxi:Schema",
+    "TaxiType": "taxi:Type",
+    "TaxiModel": "taxi:Model",
+    "TaxiService": "taxi:Service",
+    "TaxiOperation": "taxi:Operation",
+    "namespace": "taxi:namespace",
+    "inherits": "taxi:inherits",
+    "qualifiedName": "taxi:qualifiedName",
+    "baseUri": "taxi:baseUri",
+    "returnType": "taxi:returnType",
+    "parameter": "taxi:parameter",
+    "contract": "taxi:contract",
+    "annotation": "taxi:annotation",
+    "TaxiQL": "taxi:QueryLanguage",
+    "query": "taxi:query",
+    "facts": "taxi:facts",
+    "executionPlan": "taxi:executionPlan",
+    "SoftwareSourceCode": "schema:SoftwareSourceCode",
+    "programmingLanguage": "schema:programmingLanguage",
+    "codeRepository": "schema:codeRepository",
+    "license": "schema:license",
+    "APIReference": "schema:APIReference",
+    "name": "schema:name",
+    "description": "schema:description"
+  }
+}

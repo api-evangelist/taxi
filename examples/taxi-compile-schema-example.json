@@ -1,0 +1,62 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://api.taxilang.org/schemas/compile",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "content": "namespace com.example\n\ntype MovieTitle inherits String\ntype ReleaseYear inherits Int\ntype ReviewScore inherits Decimal\n\nmodel Movie {\n  title : MovieTitle\n  year : ReleaseYear\n  score : ReviewScore\n}\n\n@HttpService(baseUrl = \"https://movies.example.com\")\nservice MovieService {\n  @HttpOperation(method = 'GET', url = '/movies')\n  operation listMovies() : Movie[]\n\n  @HttpOperation(method = 'GET', url = '/movies/{id}')\n  operation getMovie(@PathVariable id: String) : Movie\n}"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "types": [
+        {
+          "qualified_name": "com.example.MovieTitle",
+          "name": "MovieTitle",
+          "namespace": "com.example",
+          "kind": "type",
+          "annotations": ["inherits String"]
+        },
+        {
+          "qualified_name": "com.example.Movie",
+          "name": "Movie",
+          "namespace": "com.example",
+          "kind": "model",
+          "fields": [
+            {"name": "title", "type": "com.example.MovieTitle", "nullable": false},
+            {"name": "year", "type": "com.example.ReleaseYear", "nullable": false},
+            {"name": "score", "type": "com.example.ReviewScore", "nullable": false}
+          ]
+        }
+      ],
+      "services": [
+        {
+          "name": "MovieService",
+          "base_url": "https://movies.example.com",
+          "operations": [
+            {
+              "name": "listMovies",
+              "method": "GET",
+              "url": "/movies",
+              "return_type": "com.example.Movie[]"
+            },
+            {
+              "name": "getMovie",
+              "method": "GET",
+              "url": "/movies/{id}",
+              "return_type": "com.example.Movie",
+              "parameters": [
+                {"name": "id", "type": "String", "placement": "path"}
+              ]
+            }
+          ]
+        }
+      ],
+      "errors": []
+    }
+  }
+}

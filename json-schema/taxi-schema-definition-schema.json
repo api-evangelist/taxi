@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taxilang.org/schemas/schema-definition",
+  "title": "Taxi Schema Definition",
+  "description": "JSON representation of a compiled Taxi schema including types, models, enums, and service definitions",
+  "type": "object",
+  "properties": {
+    "namespace": {
+      "type": "string",
+      "description": "Taxi namespace (e.g., com.example)",
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9]*)*$"
+    },
+    "version": {
+      "type": "string",
+      "description": "Schema version"
+    },
+    "types": {
+      "type": "array",
+      "description": "Semantic type definitions (primitives with semantic meaning)",
+      "items": {
+        "$ref": "#/$defs/TypeDefinition"
+      }
+    },
+    "models": {
+      "type": "array",
+      "description": "Model definitions (complex objects with typed fields)",
+      "items": {
+        "$ref": "#/$defs/ModelDefinition"
+      }
+    },
+    "enums": {
+      "type": "array",
+      "description": "Enum type definitions",
+      "items": {
+        "$ref": "#/$defs/EnumDefinition"
+      }
+    },
+    "services": {
+      "type": "array",
+      "description": "Service definitions (APIs, databases, streams)",
+      "items": {
+        "$ref": "#/$defs/ServiceDefinition"
+      }
+    }
+  },
+  "$defs": {
+    "TypeDefinition": {
+      "type": "object",
+      "required": ["name", "inherits"],
+      "properties": {
+        "name": {"type": "string", "description": "Qualified type name"},
+        "inherits": {"type": "string", "description": "Base type (String, Int, Decimal, Boolean, Date, etc.)"},
+        "annotations": {"type": "array", "items": {"type": "string"}},
+        "documentation": {"type": "string"}
+      }
+    },
+    "ModelDefinition": {
+      "type": "object",
+      "required": ["name", "fields"],
+      "properties": {
+        "name": {"type": "string", "description": "Qualified model name"},
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "type"],
+            "properties": {
+              "name": {"type": "string"},
+              "type": {"type": "string", "description": "Field type (qualified name)"},
+              "nullable": {"type": "boolean", "default": false},
+              "annotations": {"type": "array", "items": {"type": "string"}}
+            }
+          }
+        },
+        "annotations": {"type": "array", "items": {"type": "string"}},
+        "documentation": {"type": "string"}
+      }
+    },
+    "EnumDefinition": {
+      "type": "object",
+      "required": ["name", "values"],
+      "properties": {
+        "name": {"type": "string"},
+        "values": {"type": "array", "items": {"type": "string"}},
+        "annotations": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "ServiceDefinition": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {"type": "string"},
+        "kind": {
+          "type": "string",
+          "enum": ["http", "database", "kafka", "grpc"],
+          "description": "Service communication type"
+        },
+        "base_url": {"type": "string", "description": "Base URL for HTTP services"},
+        "operations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name"],
+            "properties": {
+              "name": {"type": "string"},
+              "method": {"type": "string"},
+              "url": {"type": "string"},
+              "return_type": {"type": "string"},
+              "parameters": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {"type": "string"},
+                    "type": {"type": "string"},
+                    "placement": {"type": "string", "enum": ["path", "query", "body", "header"]}
+                  }
+                }
+              },
+              "contracts": {
+                "type": "array",
+                "items": {"type": "string"},
+                "description": "Pre/post-condition contracts"
+              }
+            }
+          }
+        },
+        "annotations": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

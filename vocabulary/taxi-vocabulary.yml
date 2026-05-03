@@ -1,0 +1,77 @@
+name: Taxi Vocabulary
+description: Domain vocabulary for the Taxi language — covering semantic type annotations, TaxiQL query syntax, service declarations, and data integration concepts.
+url: https://taxilang.org/
+version: "1.0"
+created: "2026-05-03"
+modified: "2026-05-03"
+tags:
+  - API Description
+  - Data Integration
+  - Open Source
+  - Query Language
+  - Schema
+terms:
+  - term: Taxi
+    definition: "An open-source (Apache 2.0) language for describing APIs, data models, and how data relates across an entire ecosystem. Written in Kotlin and available on GitHub at github.com/taxilang/taxilang."
+    type: language
+    domain: API Description
+  - term: TaxiQL
+    definition: "The declarative query language for Taxi. Allows consumers to describe the data they want and Taxi automatically discovers the required API calls and data transformations to fulfill the query."
+    type: query-language
+    domain: Data Query
+  - term: Semantic Type
+    definition: "A named type in Taxi that inherits from a primitive (String, Int, etc.) and carries domain meaning. For example, `type MovieTitle inherits String` distinguishes a movie title from any other string."
+    type: language-concept
+    domain: Type System
+  - term: Model
+    definition: "A complex object definition in Taxi with typed fields. Similar to an OpenAPI schema object but with semantically typed fields that carry meaning beyond their structural type."
+    type: language-concept
+    domain: Type System
+  - term: Service
+    definition: "An API endpoint, database table, or event stream declared in Taxi with @HttpService, table, or stream syntax. Services expose operations that Taxi uses to fulfill TaxiQL queries."
+    type: language-concept
+    domain: Service Description
+  - term: Operation
+    definition: "A function on a Service that reads or writes data. HTTP operations use @HttpOperation with method and URL. Operations declare return types that Taxi uses for query routing."
+    type: language-concept
+    domain: Service Description
+  - term: "@HttpService"
+    definition: "Taxi annotation applied to service declarations to specify a base URL: `@HttpService(baseUrl='https://api.example.com')`. All contained operations inherit this base URL."
+    type: annotation
+    domain: Service Description
+  - term: "@HttpOperation"
+    definition: "Taxi annotation on operations specifying HTTP method and URL: `@HttpOperation(method='GET', url='/resource/{id}')`. Enables Taxi to know how to call the operation."
+    type: annotation
+    domain: Service Description
+  - term: "@PathVariable"
+    definition: "Annotation marking an operation parameter that maps to a URL path segment: `@PathVariable(name='id')`."
+    type: annotation
+    domain: Service Description
+  - term: "@HttpRequestBody"
+    definition: "Annotation marking a parameter as the HTTP request body for POST/PUT operations."
+    type: annotation
+    domain: Service Description
+  - term: Contract
+    definition: "Pre/post-condition constraints on an operation's return type. For example, `Money(from input, currency = targetCurrency)` specifies the output currency is derived from an input parameter."
+    type: language-concept
+    domain: Type Constraints
+  - term: Namespace
+    definition: "A hierarchical identifier in reverse-domain notation (e.g., com.example.finance) that organizes Taxi types and prevents naming conflicts across schemas."
+    type: language-concept
+    domain: Organization
+  - term: Orbital
+    definition: "The companion data platform for Taxi (orbitalhq.com) that hosts a schema registry, executes TaxiQL queries, and orchestrates federated integrations using Taxi annotations."
+    type: platform
+    domain: Tooling
+  - term: Schema Registry
+    definition: "A repository of registered Taxi schemas that Taxi and Orbital use to discover type definitions, service operations, and data relationships for query planning."
+    type: concept
+    domain: Infrastructure
+  - term: Federated Query
+    definition: "A TaxiQL query that is automatically decomposed into multiple API calls across different services, with Taxi handling orchestration, data fetching, and result assembly."
+    type: concept
+    domain: Data Query
+  - term: type_alias
+    definition: "A Taxi language construct that creates an alternative name for an existing type, useful for describing the same semantic concept across different naming conventions in different systems."
+    type: language-concept
+    domain: Type System

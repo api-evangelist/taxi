@@ -4,7 +4,8 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Taxi - Describe How Your APIs and Data Relate
 providerId: taxi-describe-how-your-apis-and-data-relate
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: false
 tags:
   - API Description
   - Data Integration
@@ -13,93 +14,53 @@ tags:
   - Schema
   - Semantic
   - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the Taxi - Describe How Your APIs and Data Relate
-  API surface. Captures per-tier quotas, burst behavior, response signaling, and recovery semantics. Defaults
-  are scaffold values to be replaced with published provider limits.
-headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+description: The Taxi language itself is an Apache 2.0 open source schema language with no rate
+  limits. The companion Orbital platform that executes TaxiQL queries enforces capacity through
+  monthly call quotas tied to the subscription tier rather than per-second / per-minute throttles
+  documented at the protocol level. There is no public Orbital rate-limit specification beyond
+  the per-tier monthly call ceilings.
+sources:
+  - https://taxilang.org/
+  - https://orbitalhq.com/pricing
+notes: No public per-second / per-minute throttling documentation found for Orbital; capacity is
+  governed by the subscription tier's monthly call quota. Reconciled left false until the Orbital
+  team publishes explicit per-window limits.
 responseCodes:
   throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Taxi Language
-      - TaxiQL Query API
-      - Orbital Platform
-      - Taxi Playground
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Taxi Language
-      - TaxiQL Query API
-      - Orbital Platform
-      - Taxi Playground
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Taxi Language
-      - TaxiQL Query API
-      - Orbital Platform
-      - Taxi Playground
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
+  - name: Orbital Free monthly calls
+    scope: workspace
     metric: requests_per_month
     limit: 100000
     timeFrame: month
-    applies:
-      - Taxi Language
-      - TaxiQL Query API
-      - Orbital Platform
-      - Taxi Playground
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Taxi Language
-      - TaxiQL Query API
-      - Orbital Platform
-      - Taxi Playground
+    notes: Free-tier monthly call ceiling per Orbital pricing.
+  - name: Orbital Team monthly calls
+    scope: workspace
+    metric: requests_per_month
+    limit: 1000000
+    timeFrame: month
+  - name: Orbital Business monthly calls
+    scope: workspace
+    metric: requests_per_month
+    limit: 10000000
+    timeFrame: month
+  - name: Orbital Platform monthly calls
+    scope: workspace
+    metric: requests_per_month
+    limit: 100000000
+    timeFrame: month
+  - name: Orbital Enterprise monthly calls
+    scope: workspace
+    metric: requests_per_month
+    limit: 1000000000
+    timeFrame: month
 policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+  - name: Quota-Based Enforcement
+    description: Orbital enforces capacity primarily through the subscription tier's monthly call
+      quota. Overage is billed per 10M calls and varies by tier ($200-$400 per 10M).
+  - name: Open Source Locality
+    description: The Taxi schema language and TaxiQL are open source and run wherever the consumer
+      hosts them; rate limiting only applies when querying through a managed Orbital workspace.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

@@ -1,198 +1,321 @@
-naftiko: "1.0.0-alpha1"
-
+naftiko: 1.0.0-alpha2
 info:
-  label: "Taxi Data Integration"
-  description: >-
-    Workflow capability for schema-driven data integration using the Taxi language.
-    Covers schema authoring, TaxiQL query execution, type and service discovery,
-    and conversion of existing API specs to Taxi format. Designed for API platform
+  label: Taxi Data Integration
+  description: Workflow capability for schema-driven data integration using the Taxi language. Covers schema authoring, TaxiQL
+    query execution, type and service discovery, and conversion of existing API specs to Taxi format. Designed for API platform
     teams, data engineers, and integration developers.
   tags:
-    - API Description
-    - Data Integration
-    - Open Source
-    - Schema Registry
-    - Semantic Types
-    - TaxiQL
-  created: "2026-05-03"
-  modified: "2026-05-03"
-
+  - API Description
+  - Data Integration
+  - Open Source
+  - Schema Registry
+  - Semantic Types
+  - TaxiQL
+  created: '2026-05-03'
+  modified: '2026-05-06'
 binds:
-  - namespace: env
-    keys:
-      TAXI_API_KEY: TAXI_API_KEY
-
+- namespace: env
+  keys:
+    TAXI_API_KEY: TAXI_API_KEY
 capability:
   consumes:
-    - import: taxi-api
-      location: ./shared/taxi-api.yaml
-
+  - type: http
+    namespace: taxi-api
+    baseUri: https://api.taxilang.org
+    description: Taxi language API for schema management and query execution
+    authentication:
+      type: apikey
+      key: X-Api-Key
+      value: '{{TAXI_API_KEY}}'
+      placement: header
+    resources:
+    - name: schemas
+      path: /schemas
+      description: Schema registry operations
+      operations:
+      - name: list-schemas
+        method: GET
+        description: List all registered Taxi schemas
+        inputParameters:
+        - name: namespace
+          in: query
+          type: string
+          required: false
+          description: Filter by namespace
+        - name: limit
+          in: query
+          type: integer
+          required: false
+          description: Maximum results
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: register-schema
+        method: POST
+        description: Register a new Taxi schema
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            name: '{{tools.name}}'
+            content: '{{tools.content}}'
+            version: '{{tools.version}}'
+    - name: compile
+      path: /schemas/compile
+      description: Schema compilation and validation
+      operations:
+      - name: compile-schema
+        method: POST
+        description: Compile and validate a Taxi schema
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            content: '{{tools.content}}'
+    - name: queries
+      path: /queries
+      description: TaxiQL query execution
+      operations:
+      - name: execute-query
+        method: POST
+        description: Execute a TaxiQL query across registered data sources
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            query: '{{tools.query}}'
+            facts: '{{tools.facts}}'
+    - name: types
+      path: /types
+      description: Type registry
+      operations:
+      - name: list-types
+        method: GET
+        description: List all types across registered schemas
+        inputParameters:
+        - name: namespace
+          in: query
+          type: string
+          required: false
+          description: Filter by namespace
+        - name: search
+          in: query
+          type: string
+          required: false
+          description: Search by type name
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: services
+      path: /services
+      description: Service registry
+      operations:
+      - name: list-services
+        method: GET
+        description: List all registered services
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: convert-openapi
+      path: /convert/openapi
+      description: Convert OpenAPI to Taxi
+      operations:
+      - name: convert-from-openapi
+        method: POST
+        description: Convert an OpenAPI spec to Taxi schema
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            spec_content: '{{tools.spec_content}}'
+            namespace: '{{tools.namespace}}'
   exposes:
-    - type: rest
-      port: 8081
-      namespace: taxi-data-integration-api
-      description: "Unified REST API for Taxi-driven data integration workflows."
-      resources:
-        - path: /v1/schemas
-          name: schemas
-          description: "Schema registry — list and register Taxi schemas"
-          operations:
-            - method: GET
-              name: list-schemas
-              description: "List all registered Taxi schemas"
-              call: "taxi-api.list-schemas"
-              with:
-                namespace: "rest.namespace"
-                limit: "rest.limit"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: POST
-              name: register-schema
-              description: "Register a Taxi schema"
-              call: "taxi-api.register-schema"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/schemas/compile
-          name: schema-compile
-          description: "Compile and validate Taxi schemas"
-          operations:
-            - method: POST
-              name: compile-schema
-              description: "Compile a Taxi schema and return types and validation errors"
-              call: "taxi-api.compile-schema"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/queries
-          name: queries
-          description: "TaxiQL federated query execution"
-          operations:
-            - method: POST
-              name: execute-query
-              description: "Execute a TaxiQL query across registered data sources"
-              call: "taxi-api.execute-query"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/types
-          name: types
-          description: "Type discovery across registered schemas"
-          operations:
-            - method: GET
-              name: list-types
-              description: "List all types"
-              call: "taxi-api.list-types"
-              with:
-                namespace: "rest.namespace"
-                search: "rest.search"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/services
-          name: services
-          description: "Service registry"
-          operations:
-            - method: GET
-              name: list-services
-              description: "List all registered services"
-              call: "taxi-api.list-services"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/convert/openapi
-          name: openapi-conversion
-          description: "Convert OpenAPI specs to Taxi"
-          operations:
-            - method: POST
-              name: convert-from-openapi
-              description: "Convert OpenAPI to Taxi schema"
-              call: "taxi-api.convert-from-openapi"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-    - type: mcp
-      port: 9081
-      namespace: taxi-data-integration-mcp
-      transport: http
-      description: "MCP server for AI-assisted Taxi schema authoring and data integration."
-      tools:
-        - name: list-schemas
-          description: "List all registered Taxi schemas in the registry"
-          hints:
-            readOnly: true
-            openWorld: true
-          call: "taxi-api.list-schemas"
-          with:
-            namespace: "tools.namespace"
-            limit: "tools.limit"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: compile-taxi-schema
-          description: "Compile and validate a Taxi schema, returning parsed types and any errors"
-          hints:
-            readOnly: true
-            openWorld: false
-          call: "taxi-api.compile-schema"
-          with:
-            content: "tools.content"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: register-schema
-          description: "Register a new Taxi schema in the registry"
-          hints:
-            readOnly: false
-            openWorld: false
-          call: "taxi-api.register-schema"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: execute-taxiql-query
-          description: "Execute a TaxiQL query — Taxi automatically discovers API call paths and assembles results"
-          hints:
-            readOnly: true
-            openWorld: true
-          call: "taxi-api.execute-query"
-          with:
-            query: "tools.query"
-            facts: "tools.facts"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: discover-types
-          description: "Discover all semantic types defined across registered Taxi schemas"
-          hints:
-            readOnly: true
-            openWorld: true
-          call: "taxi-api.list-types"
-          with:
-            namespace: "tools.namespace"
-            search: "tools.search"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: list-services
-          description: "List all API services registered with semantic annotations in the schema registry"
-          hints:
-            readOnly: true
-            openWorld: true
-          call: "taxi-api.list-services"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: convert-openapi-to-taxi
-          description: "Convert an existing OpenAPI specification to Taxi schema format with semantic type annotations"
-          hints:
-            readOnly: false
-            openWorld: false
-          call: "taxi-api.convert-from-openapi"
-          with:
-            spec_content: "tools.spec_content"
-            namespace: "tools.namespace"
-          outputParameters:
-            - type: object
-              mapping: "$."
+  - type: rest
+    port: 8081
+    namespace: taxi-data-integration-api
+    description: Unified REST API for Taxi-driven data integration workflows.
+    resources:
+    - path: /v1/schemas
+      name: schemas
+      description: Schema registry — list and register Taxi schemas
+      operations:
+      - method: GET
+        name: list-schemas
+        description: List all registered Taxi schemas
+        call: taxi-api.list-schemas
+        with:
+          namespace: rest.namespace
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: register-schema
+        description: Register a Taxi schema
+        call: taxi-api.register-schema
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/schemas/compile
+      name: schema-compile
+      description: Compile and validate Taxi schemas
+      operations:
+      - method: POST
+        name: compile-schema
+        description: Compile a Taxi schema and return types and validation errors
+        call: taxi-api.compile-schema
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/queries
+      name: queries
+      description: TaxiQL federated query execution
+      operations:
+      - method: POST
+        name: execute-query
+        description: Execute a TaxiQL query across registered data sources
+        call: taxi-api.execute-query
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/types
+      name: types
+      description: Type discovery across registered schemas
+      operations:
+      - method: GET
+        name: list-types
+        description: List all types
+        call: taxi-api.list-types
+        with:
+          namespace: rest.namespace
+          search: rest.search
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/services
+      name: services
+      description: Service registry
+      operations:
+      - method: GET
+        name: list-services
+        description: List all registered services
+        call: taxi-api.list-services
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/convert/openapi
+      name: openapi-conversion
+      description: Convert OpenAPI specs to Taxi
+      operations:
+      - method: POST
+        name: convert-from-openapi
+        description: Convert OpenAPI to Taxi schema
+        call: taxi-api.convert-from-openapi
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9081
+    namespace: taxi-data-integration-mcp
+    transport: http
+    description: MCP server for AI-assisted Taxi schema authoring and data integration.
+    tools:
+    - name: list-schemas
+      description: List all registered Taxi schemas in the registry
+      hints:
+        readOnly: true
+        openWorld: true
+      call: taxi-api.list-schemas
+      with:
+        namespace: tools.namespace
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: compile-taxi-schema
+      description: Compile and validate a Taxi schema, returning parsed types and any errors
+      hints:
+        readOnly: true
+        openWorld: false
+      call: taxi-api.compile-schema
+      with:
+        content: tools.content
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: register-schema
+      description: Register a new Taxi schema in the registry
+      hints:
+        readOnly: false
+        openWorld: false
+      call: taxi-api.register-schema
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: execute-taxiql-query
+      description: Execute a TaxiQL query — Taxi automatically discovers API call paths and assembles results
+      hints:
+        readOnly: true
+        openWorld: true
+      call: taxi-api.execute-query
+      with:
+        query: tools.query
+        facts: tools.facts
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: discover-types
+      description: Discover all semantic types defined across registered Taxi schemas
+      hints:
+        readOnly: true
+        openWorld: true
+      call: taxi-api.list-types
+      with:
+        namespace: tools.namespace
+        search: tools.search
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-services
+      description: List all API services registered with semantic annotations in the schema registry
+      hints:
+        readOnly: true
+        openWorld: true
+      call: taxi-api.list-services
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: convert-openapi-to-taxi
+      description: Convert an existing OpenAPI specification to Taxi schema format with semantic type annotations
+      hints:
+        readOnly: false
+        openWorld: false
+      call: taxi-api.convert-from-openapi
+      with:
+        spec_content: tools.spec_content
+        namespace: tools.namespace
+      outputParameters:
+      - type: object
+        mapping: $.

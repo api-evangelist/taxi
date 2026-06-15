@@ -1,0 +1,247 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Taxi Language API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Schemas",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Schemas",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.taxilang.org/schemas",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "query",
+                "description": "Filter by namespace"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum results to return"
+              }
+            ]
+          },
+          "docs": "Returns all registered Taxi schemas in the schema registry."
+        },
+        {
+          "info": {
+            "name": "Register Schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.taxilang.org/schemas",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Register a new Taxi schema with the schema registry."
+        },
+        {
+          "info": {
+            "name": "Get Schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.taxilang.org/schemas/:schema_id",
+            "params": [
+              {
+                "name": "schema_id",
+                "value": "",
+                "type": "path",
+                "description": "Schema identifier"
+              }
+            ]
+          },
+          "docs": "Returns a specific Taxi schema by ID."
+        },
+        {
+          "info": {
+            "name": "Compile Schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.taxilang.org/schemas/compile",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Compile and validate a Taxi schema, returning parsed types and any errors."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Queries",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute TaxiQL Query",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.taxilang.org/queries",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Execute a TaxiQL query against registered schemas and data sources. Taxi orchestrates the required API calls, data lookups, and transformations to fulfill the query."
+        },
+        {
+          "info": {
+            "name": "Get Query Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.taxilang.org/queries/:query_id",
+            "params": [
+              {
+                "name": "query_id",
+                "value": "",
+                "type": "path",
+                "description": "Query execution ID"
+              }
+            ]
+          },
+          "docs": "Returns the status and results of an asynchronous TaxiQL query."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Types",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.taxilang.org/types",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "query",
+                "description": "Filter by namespace"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search by type name"
+              }
+            ]
+          },
+          "docs": "Returns all types defined across registered Taxi schemas."
+        },
+        {
+          "info": {
+            "name": "Get Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.taxilang.org/types/:qualified_name",
+            "params": [
+              {
+                "name": "qualified_name",
+                "value": "",
+                "type": "path",
+                "description": "Fully qualified type name (e.g., com.example.MovieTitle)"
+              }
+            ]
+          },
+          "docs": "Returns the definition of a specific Taxi type by qualified name."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Services",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Services",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.taxilang.org/services"
+          },
+          "docs": "Returns all API services registered in the Taxi schema registry."
+        },
+        {
+          "info": {
+            "name": "Get Service",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.taxilang.org/services/:service_name",
+            "params": [
+              {
+                "name": "service_name",
+                "value": "",
+                "type": "path",
+                "description": "Service name"
+              }
+            ]
+          },
+          "docs": "Returns a specific service definition including all operations."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Conversion",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Convert from OpenAPI",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.taxilang.org/convert/openapi",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Convert an OpenAPI specification to Taxi schema format, generating type definitions and service declarations with semantic annotations."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

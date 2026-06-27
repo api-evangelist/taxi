@@ -93,7 +93,7 @@ common:
     url: https://taxilang.org/
   - type: Documentation
     url: https://docs.taxilang.org/
-  - type: GitHub Org
+  - type: GitHubOrg
     url: https://github.com/taxilang
   - type: Playground
     url: https://playground.taxilang.org

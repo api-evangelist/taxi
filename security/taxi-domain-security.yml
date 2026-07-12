@@ -1,0 +1,30 @@
+generated: '2026-07-11'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: taxilang.org
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct  7 08:13:48 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: docs.taxilang.org
+  https: false
+- host: orbitalhq.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 30 02:53:48 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+domains:
+- domain: taxilang.org
+  dnssec: false
+  caa: []
+  spf: false
+  dmarc: false
+- domain: orbitalhq.com
+  dnssec: false
+  caa: []
+  spf: false
+  dmarc: true
+  dmarc_policy: none

@@ -1,79 +1,157 @@
+# taxi — Spectral ruleset (strengthened)
+# Plain Spectral. Existing hand-authored rules preserved; measured rules added
+# from this provider's own OpenAPI conventions by strengthen_ruleset.py,
+# then self-validated against the spec.
+#
+# Provenance:
+#   - servers-https-only: 100% of servers already https (error)
+#   - servers-expected-domain: 1/1 servers on taxilang.org
+#   - path-params-casing: snake @ 100% (n=4)
+#   - query-params-casing: snake @ 100% (n=4)
+#   - operationid-casing: camel @ 100% (n=11)
+#   - schema-names-casing: pascal @ 100% (n=18)
+#   - schema-properties-casing: snake @ 100% (n=68)
+#   - error-schema-defined: Error
+#   - pagination params observed: ['limit']
+#   - merge: kept 8 existing, added 8 measured, upgraded 0
+#   - added: servers-https-only, servers-expected-domain, path-params-casing, query-params-casing, schema-names-casing, schema-properties-casing, error-schema-defined, no-empty-descriptions
+extends:
+  - spectral:oas
 rules:
   taxi-operation-ids-camel-case:
     description: Operation IDs must use camelCase
-    message: "operationId '{{value}}' must use camelCase"
+    message: operationId '{{value}}' must use camelCase
     severity: warn
-    given: "$.paths[*][*].operationId"
+    given: $.paths[*][*].operationId
     then:
       function: pattern
       functionOptions:
-        match: "^[a-z][a-zA-Z0-9]*$"
-
+        match: ^[a-z][a-zA-Z0-9]*$
   taxi-path-kebab-case:
     description: Path segments must use kebab-case
-    message: "Path segment must use kebab-case: {{path}}"
+    message: 'Path segment must use kebab-case: {{path}}'
     severity: warn
-    given: "$.paths[*]~"
+    given: $.paths[*]~
     then:
       function: pattern
       functionOptions:
-        match: "^(/[a-z0-9{}-]+)*$"
-
+        match: ^(/[a-z0-9{}-]+)*$
   taxi-operation-summary-exists:
     description: All operations must have a summary
-    message: "Operation at '{{path}}' is missing a summary"
+    message: Operation at '{{path}}' is missing a summary
     severity: error
-    given: "$.paths[*][get,post,put,patch,delete]"
+    given: $.paths[*][get,post,put,patch,delete]
     then:
       field: summary
       function: truthy
-
   taxi-operation-description-exists:
     description: All operations must have a description
-    message: "Operation at '{{path}}' is missing a description"
+    message: Operation at '{{path}}' is missing a description
     severity: warn
-    given: "$.paths[*][get,post,put,patch,delete]"
+    given: $.paths[*][get,post,put,patch,delete]
     then:
       field: description
       function: truthy
-
   taxi-response-200-exists:
     description: All operations must define a 200 response
-    message: "Operation at '{{path}}' must define a 200/201 success response"
+    message: Operation at '{{path}}' must define a 200/201 success response
     severity: error
-    given: "$.paths[*][get,post,put,patch,delete].responses"
+    given: $.paths[*][get,post,put,patch,delete].responses
     then:
       function: schema
       functionOptions:
         schema:
           anyOf:
-            - required: ["200"]
-            - required: ["201"]
-
+          - required:
+            - '200'
+          - required:
+            - '201'
   taxi-tags-title-case:
     description: Tags must use Title Case
-    message: "Tag '{{value}}' must use Title Case"
+    message: Tag '{{value}}' must use Title Case
     severity: warn
-    given: "$.tags[*].name"
+    given: $.tags[*].name
     then:
       function: pattern
       functionOptions:
-        match: "^[A-Z][a-zA-Z0-9 ]*$"
-
+        match: ^[A-Z][a-zA-Z0-9 ]*$
   taxi-info-license:
     description: API must include license information (open source)
-    message: "Open source API must include license info"
+    message: Open source API must include license info
     severity: warn
-    given: "$.info"
+    given: $.info
     then:
       field: license
       function: truthy
-
   taxi-schema-descriptions:
     description: Component schemas must have descriptions
-    message: "Schema '{{path}}' is missing a description"
+    message: Schema '{{path}}' is missing a description
     severity: warn
-    given: "$.components.schemas[*]"
+    given: $.components.schemas[*]
     then:
       field: description
+      function: truthy
+  servers-https-only:
+    description: Server URLs must use HTTPS.
+    severity: error
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: ^https://
+  servers-expected-domain:
+    description: Server URLs should be on the taxilang.org domain.
+    severity: warn
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: taxilang\.org
+  path-params-casing:
+    description: Path parameters should be snake_case (the dominant convention in this API).
+    severity: warn
+    given: $.paths[*].parameters[?(@.in=='path')].name
+    then:
+      function: casing
+      functionOptions:
+        type: snake
+  query-params-casing:
+    description: Query parameters should be snake_case (the dominant convention in this API).
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].parameters[?(@.in=='query')]
+    then:
+      field: name
+      function: casing
+      functionOptions:
+        type: snake
+  schema-names-casing:
+    description: Component schema names should be PascalCase (the dominant convention in this API).
+    severity: warn
+    given: $.components.schemas
+    then:
+      field: '@key'
+      function: casing
+      functionOptions:
+        type: pascal
+  schema-properties-casing:
+    description: Schema properties should be snake_case (the dominant convention in this API).
+    severity: warn
+    given: $.components.schemas[*].properties
+    then:
+      field: '@key'
+      function: casing
+      functionOptions:
+        type: snake
+  error-schema-defined:
+    description: A shared error schema (Error) should be defined for error payloads.
+    severity: warn
+    given: $.components.schemas
+    then:
+      field: Error
+      function: truthy
+  no-empty-descriptions:
+    description: Descriptions must not be empty strings.
+    severity: warn
+    given: $..description
+    then:
       function: truthy

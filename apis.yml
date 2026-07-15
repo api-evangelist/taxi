@@ -87,6 +87,8 @@ apis:
       - type: Documentation
         url: https://playground.taxilang.org
 common:
+  - type: AgenticAccess
+    url: agentic-access/taxi-agentic-access.yml
   - type: DomainSecurity
     url: security/taxi-domain-security.yml
   - type: LinkedIn

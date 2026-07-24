@@ -1,0 +1,147 @@
+openapi: 3.1.0
+info:
+  title: Taxi Language Conversion Types API
+  description: Taxi is an open-source language for describing APIs, data models, and how data relates across an entire ecosystem. This API covers the Taxi schema compiler service, TaxiQL query execution, schema registry operations, and tooling integrations for generating Taxi schemas from existing API specifications.
+  version: '1.0'
+  contact:
+    name: Taxi Language
+    url: https://taxilang.org/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://api.taxilang.org
+  description: Taxi API service
+tags:
+- name: Types
+  description: Type registry and discovery
+paths:
+  /types:
+    get:
+      operationId: listTypes
+      summary: List Types
+      description: Returns all types defined across registered Taxi schemas.
+      tags:
+      - Types
+      parameters:
+      - name: namespace
+        in: query
+        required: false
+        description: Filter by namespace
+        schema:
+          type: string
+      - name: search
+        in: query
+        required: false
+        description: Search by type name
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of types
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TypeList'
+  /types/{qualified_name}:
+    get:
+      operationId: getType
+      summary: Get Type
+      description: Returns the definition of a specific Taxi type by qualified name.
+      tags:
+      - Types
+      parameters:
+      - name: qualified_name
+        in: path
+        required: true
+        description: Fully qualified type name (e.g., com.example.MovieTitle)
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Type definition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TypeDefinition'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    TypeDefinition:
+      type: object
+      properties:
+        qualified_name:
+          type: string
+          description: Fully qualified type name
+        name:
+          type: string
+          description: Short type name
+        namespace:
+          type: string
+          description: Namespace
+        kind:
+          type: string
+          enum:
+          - type
+          - model
+          - enum
+          - type_alias
+          description: Type kind
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeField'
+        annotations:
+          type: array
+          items:
+            type: string
+          description: Applied annotations
+    TypeField:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Field name
+        type:
+          type: string
+          description: Field type (qualified name)
+        nullable:
+          type: boolean
+        annotations:
+          type: array
+          items:
+            type: string
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error description
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of specific error messages
+    TypeList:
+      type: object
+      properties:
+        types:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeDefinition'
+        total:
+          type: integer
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+externalDocs:
+  description: Taxi Language Documentation
+  url: https://docs.taxilang.org/

@@ -1,0 +1,146 @@
+openapi: 3.1.0
+info:
+  title: Taxi Language Conversion Services API
+  description: Taxi is an open-source language for describing APIs, data models, and how data relates across an entire ecosystem. This API covers the Taxi schema compiler service, TaxiQL query execution, schema registry operations, and tooling integrations for generating Taxi schemas from existing API specifications.
+  version: '1.0'
+  contact:
+    name: Taxi Language
+    url: https://taxilang.org/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://api.taxilang.org
+  description: Taxi API service
+tags:
+- name: Services
+  description: Service registry operations
+paths:
+  /services:
+    get:
+      operationId: listServices
+      summary: List Services
+      description: Returns all API services registered in the Taxi schema registry.
+      tags:
+      - Services
+      responses:
+        '200':
+          description: List of services
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceList'
+  /services/{service_name}:
+    get:
+      operationId: getService
+      summary: Get Service
+      description: Returns a specific service definition including all operations.
+      tags:
+      - Services
+      parameters:
+      - name: service_name
+        in: path
+        required: true
+        description: Service name
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Service definition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceDefinition'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    ServiceDefinition:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Service name
+        base_url:
+          type: string
+          description: Service base URL
+        operations:
+          type: array
+          items:
+            $ref: '#/components/schemas/OperationDefinition'
+        annotations:
+          type: array
+          items:
+            type: string
+    ServiceList:
+      type: object
+      properties:
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceDefinition'
+        total:
+          type: integer
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error description
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of specific error messages
+    OperationDefinition:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Operation name
+        method:
+          type: string
+          enum:
+          - GET
+          - POST
+          - PUT
+          - PATCH
+          - DELETE
+        url:
+          type: string
+          description: Operation URL
+        return_type:
+          type: string
+          description: Return type qualified name
+        parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/OperationParameter'
+    OperationParameter:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          description: Parameter type qualified name
+        placement:
+          type: string
+          enum:
+          - path
+          - query
+          - body
+          - header
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+externalDocs:
+  description: Taxi Language Documentation
+  url: https://docs.taxilang.org/

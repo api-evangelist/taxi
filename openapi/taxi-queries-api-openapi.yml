@@ -1,0 +1,133 @@
+openapi: 3.1.0
+info:
+  title: Taxi Language Conversion Queries API
+  description: Taxi is an open-source language for describing APIs, data models, and how data relates across an entire ecosystem. This API covers the Taxi schema compiler service, TaxiQL query execution, schema registry operations, and tooling integrations for generating Taxi schemas from existing API specifications.
+  version: '1.0'
+  contact:
+    name: Taxi Language
+    url: https://taxilang.org/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://api.taxilang.org
+  description: Taxi API service
+tags:
+- name: Queries
+  description: TaxiQL query execution
+paths:
+  /queries:
+    post:
+      operationId: executeQuery
+      summary: Execute TaxiQL Query
+      description: Execute a TaxiQL query against registered schemas and data sources. Taxi orchestrates the required API calls, data lookups, and transformations to fulfill the query.
+      tags:
+      - Queries
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+      responses:
+        '200':
+          description: Query results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /queries/{query_id}:
+    get:
+      operationId: getQueryStatus
+      summary: Get Query Status
+      description: Returns the status and results of an asynchronous TaxiQL query.
+      tags:
+      - Queries
+      parameters:
+      - name: query_id
+        in: path
+        required: true
+        description: Query execution ID
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Query status and results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    QueryResult:
+      type: object
+      properties:
+        query_id:
+          type: string
+          description: Query execution ID
+        status:
+          type: string
+          enum:
+          - running
+          - complete
+          - failed
+        data:
+          description: Query result data
+        execution_plan:
+          type: array
+          items:
+            type: string
+          description: List of API calls executed to fulfill the query
+        duration_ms:
+          type: integer
+          description: Query execution time in milliseconds
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error description
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of specific error messages
+    QueryRequest:
+      type: object
+      required:
+      - query
+      properties:
+        query:
+          type: string
+          description: TaxiQL query string
+        facts:
+          type: object
+          description: Starting facts as key-value pairs (typed values for query resolution)
+          additionalProperties: {}
+        async:
+          type: boolean
+          default: false
+          description: Whether to execute query asynchronously
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+externalDocs:
+  description: Taxi Language Documentation
+  url: https://docs.taxilang.org/

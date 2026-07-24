@@ -1,0 +1,104 @@
+openapi: 3.1.0
+info:
+  title: Taxi Language Conversion API
+  description: Taxi is an open-source language for describing APIs, data models, and how data relates across an entire ecosystem. This API covers the Taxi schema compiler service, TaxiQL query execution, schema registry operations, and tooling integrations for generating Taxi schemas from existing API specifications.
+  version: '1.0'
+  contact:
+    name: Taxi Language
+    url: https://taxilang.org/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://api.taxilang.org
+  description: Taxi API service
+tags:
+- name: Conversion
+  description: Convert existing specs to Taxi format
+paths:
+  /convert/openapi:
+    post:
+      operationId: convertFromOpenApi
+      summary: Convert from OpenAPI
+      description: Convert an OpenAPI specification to Taxi schema format, generating type definitions and service declarations with semantic annotations.
+      tags:
+      - Conversion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConversionRequest'
+      responses:
+        '200':
+          description: Generated Taxi schema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversionResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+components:
+  schemas:
+    ConversionResult:
+      type: object
+      properties:
+        taxi_schema:
+          type: string
+          description: Generated Taxi schema content
+        type_count:
+          type: integer
+          description: Number of types generated
+        service_count:
+          type: integer
+          description: Number of services generated
+        warnings:
+          type: array
+          items:
+            type: string
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error description
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of specific error messages
+    ConversionRequest:
+      type: object
+      required:
+      - spec_content
+      properties:
+        spec_content:
+          type: string
+          description: OpenAPI specification content (JSON or YAML)
+        namespace:
+          type: string
+          description: Target Taxi namespace for generated types
+        options:
+          type: object
+          description: Conversion options
+          properties:
+            generate_semantic_types:
+              type: boolean
+              default: true
+              description: Generate semantic type annotations
+            include_examples:
+              type: boolean
+              default: false
+  responses:
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+externalDocs:
+  description: Taxi Language Documentation
+  url: https://docs.taxilang.org/

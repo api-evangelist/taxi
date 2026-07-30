@@ -7,9 +7,21 @@ description: >-
   integration code by using semantic type annotations to automatically discover data paths and adapt to evolving API
   schemas.
 type: Index
+accessModel:
+  pricing: freemium
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Freemium
+  confidence: medium
+  source:
+  - plans
+  generated: '2026-07-22'
+  method: derived
 position: Consumer
 access: 3rd-Party
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/taxi.png
 tags:
   - API Description
   - Data Integration
@@ -22,70 +34,115 @@ modified: '2026-05-19'
 url: https://raw.githubusercontent.com/api-evangelist/taxi/refs/heads/main/apis.yml
 specificationVersion: '0.19'
 apis:
-  - aid: taxi-describe-how-your-apis-and-data-relate:taxi-language
-    name: Taxi Language
-    description: >-
-      The core Taxi schema language for defining types, models, API services, and semantic annotations. Used to describe
-      OpenAPI, Protobuf, database schemas, and Kafka topics with rich type semantics that power TaxiQL queries and data
-      orchestration.
-    humanURL: https://taxilang.org/
-    tags:
-      - API Description
-      - Data Modeling
-      - Open Source
-      - Schema
-      - Semantic Types
-    properties:
-      - type: Documentation
-        url: https://docs.taxilang.org/
-      - type: GitHub
-        url: https://github.com/taxilang/taxilang
-      - type: OpenAPI
-        url: openapi/taxi-language-openapi.yml
-  - aid: taxi-describe-how-your-apis-and-data-relate:taxiql-query-api
-    name: TaxiQL Query API
-    description: >-
-      TaxiQL is a declarative query language for federated data retrieval across multiple APIs and data sources. Queries
-      specify the desired data structure using semantic types and Taxi automatically discovers the data paths, calls
-      APIs, and assembles results.
-    humanURL: https://docs.taxilang.org/language-reference/querying-with-taxiql/
-    tags:
-      - Data Query
-      - Federated Query
-      - Open Source
-      - Query Language
-    properties:
-      - type: Documentation
-        url: https://docs.taxilang.org/language-reference/querying-with-taxiql/
-      - type: GitHub
-        url: https://github.com/taxilang/taxilang
-  - aid: taxi-describe-how-your-apis-and-data-relate:orbital-platform
-    name: Orbital Platform
-    description: >-
-      Orbital is the companion data platform for Taxi that hosts TaxiQL queries, provides a schema registry, and
-      executes federated data integrations across APIs, databases, and streams using Taxi annotations.
-    humanURL: https://orbitalhq.com
-    tags:
-      - Data Platform
-      - Federated Query
-      - Integration
-      - Schema Registry
-    properties:
-      - type: Documentation
-        url: https://orbitalhq.com
-  - aid: taxi-describe-how-your-apis-and-data-relate:taxi-playground
-    name: Taxi Playground
-    description: >-
-      Interactive web-based editor for writing Taxi schemas and TaxiQL queries with live diagram generation and query
-      execution preview.
-    humanURL: https://playground.taxilang.org
-    tags:
-      - Developer Tools
-      - Playground
-      - Schema Editor
-    properties:
-      - type: Documentation
-        url: https://playground.taxilang.org
+- aid: taxi-describe-how-your-apis-and-data-relate:taxiql-query-api
+  name: TaxiQL Query API
+  description: >-
+    TaxiQL is a declarative query language for federated data retrieval across multiple APIs and data
+    sources. Queries specify the desired data structure using semantic types and Taxi automatically discovers
+    the data paths, calls APIs, and assembles results.
+  humanURL: https://docs.taxilang.org/language-reference/querying-with-taxiql/
+  tags:
+  - Data Query
+  - Federated Query
+  - Open Source
+  - Query Language
+  properties:
+  - type: Documentation
+    url: https://docs.taxilang.org/language-reference/querying-with-taxiql/
+  - type: GitHub
+    url: https://github.com/taxilang/taxilang
+- aid: taxi-describe-how-your-apis-and-data-relate:orbital-platform
+  name: Orbital Platform
+  description: >-
+    Orbital is the companion data platform for Taxi that hosts TaxiQL queries, provides a schema registry,
+    and executes federated data integrations across APIs, databases, and streams using Taxi annotations.
+  humanURL: https://orbitalhq.com
+  tags:
+  - Data Platform
+  - Federated Query
+  - Integration
+  - Schema Registry
+  properties:
+  - type: Documentation
+    url: https://orbitalhq.com
+- aid: taxi-describe-how-your-apis-and-data-relate:taxi-playground
+  name: Taxi Playground
+  description: >-
+    Interactive web-based editor for writing Taxi schemas and TaxiQL queries with live diagram generation
+    and query execution preview.
+  humanURL: https://playground.taxilang.org
+  tags:
+  - Developer Tools
+  - Playground
+  - Schema Editor
+  properties:
+  - type: Documentation
+    url: https://playground.taxilang.org
+- aid: taxi:taxi-conversion-api
+  name: Taxi - Describe How Your APIs and Data Relate Conversion API
+  description: Convert existing specs to Taxi format
+  humanURL: https://taxilang.org/
+  tags:
+  - Conversion
+  properties:
+  - type: OpenAPI
+    url: openapi/taxi-conversion-api-openapi.yml
+  - type: Documentation
+    url: https://docs.taxilang.org/
+  - type: GitHub
+    url: https://github.com/taxilang/taxilang
+- aid: taxi:taxi-queries-api
+  name: Taxi - Describe How Your APIs and Data Relate Queries API
+  description: TaxiQL query execution
+  humanURL: https://taxilang.org/
+  tags:
+  - Queries
+  properties:
+  - type: OpenAPI
+    url: openapi/taxi-queries-api-openapi.yml
+  - type: Documentation
+    url: https://docs.taxilang.org/
+  - type: GitHub
+    url: https://github.com/taxilang/taxilang
+- aid: taxi:taxi-schemas-api
+  name: Taxi - Describe How Your APIs and Data Relate Schemas API
+  description: Taxi schema management and compilation
+  humanURL: https://taxilang.org/
+  tags:
+  - Schemas
+  properties:
+  - type: OpenAPI
+    url: openapi/taxi-schemas-api-openapi.yml
+  - type: Documentation
+    url: https://docs.taxilang.org/
+  - type: GitHub
+    url: https://github.com/taxilang/taxilang
+- aid: taxi:taxi-services-api
+  name: Taxi - Describe How Your APIs and Data Relate Services API
+  description: Service registry operations
+  humanURL: https://taxilang.org/
+  tags:
+  - Services
+  properties:
+  - type: OpenAPI
+    url: openapi/taxi-services-api-openapi.yml
+  - type: Documentation
+    url: https://docs.taxilang.org/
+  - type: GitHub
+    url: https://github.com/taxilang/taxilang
+- aid: taxi:taxi-types-api
+  name: Taxi - Describe How Your APIs and Data Relate Types API
+  description: Type registry and discovery
+  humanURL: https://taxilang.org/
+  tags:
+  - Types
+  properties:
+  - type: OpenAPI
+    url: openapi/taxi-types-api-openapi.yml
+  - type: Documentation
+    url: https://docs.taxilang.org/
+  - type: GitHub
+    url: https://github.com/taxilang/taxilang
 common:
   - type: AgenticAccess
     url: agentic-access/taxi-agentic-access.yml

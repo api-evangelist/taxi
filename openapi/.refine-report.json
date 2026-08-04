@@ -1,0 +1,22 @@
+{
+  "provider": "taxi",
+  "sources": [
+    "taxi-conversion-api-openapi.yml",
+    "taxi-queries-api-openapi.yml",
+    "taxi-schemas-api-openapi.yml",
+    "taxi-services-api-openapi.yml",
+    "taxi-types-api-openapi.yml"
+  ],
+  "outputs": [
+    "taxi-conversion-api-openapi.yml",
+    "taxi-queries-api-openapi.yml",
+    "taxi-schemas-api-openapi.yml",
+    "taxi-services-api-openapi.yml",
+    "taxi-types-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

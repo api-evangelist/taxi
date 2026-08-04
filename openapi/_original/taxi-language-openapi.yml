@@ -1,0 +1,611 @@
+openapi: 3.1.0
+info:
+  title: Taxi Language API
+  description: >-
+    Taxi is an open-source language for describing APIs, data models, and how data
+    relates across an entire ecosystem. This API covers the Taxi schema compiler service,
+    TaxiQL query execution, schema registry operations, and tooling integrations
+    for generating Taxi schemas from existing API specifications.
+  version: '1.0'
+  contact:
+    name: Taxi Language
+    url: https://taxilang.org/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+externalDocs:
+  description: Taxi Language Documentation
+  url: https://docs.taxilang.org/
+servers:
+  - url: https://api.taxilang.org
+    description: Taxi API service
+tags:
+  - name: Schemas
+    description: Taxi schema management and compilation
+  - name: Queries
+    description: TaxiQL query execution
+  - name: Types
+    description: Type registry and discovery
+  - name: Services
+    description: Service registry operations
+  - name: Conversion
+    description: Convert existing specs to Taxi format
+paths:
+  /schemas:
+    get:
+      operationId: listSchemas
+      summary: List Schemas
+      description: Returns all registered Taxi schemas in the schema registry.
+      tags:
+        - Schemas
+      parameters:
+        - name: namespace
+          in: query
+          required: false
+          description: Filter by namespace
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          description: Maximum results to return
+          schema:
+            type: integer
+            default: 50
+      responses:
+        '200':
+          description: List of schemas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemaList'
+    post:
+      operationId: registerSchema
+      summary: Register Schema
+      description: Register a new Taxi schema with the schema registry.
+      tags:
+        - Schemas
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SchemaRegistrationRequest'
+      responses:
+        '201':
+          description: Schema registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schema'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /schemas/{schema_id}:
+    get:
+      operationId: getSchema
+      summary: Get Schema
+      description: Returns a specific Taxi schema by ID.
+      tags:
+        - Schemas
+      parameters:
+        - name: schema_id
+          in: path
+          required: true
+          description: Schema identifier
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Schema details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schema'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /schemas/compile:
+    post:
+      operationId: compileSchema
+      summary: Compile Schema
+      description: Compile and validate a Taxi schema, returning parsed types and any errors.
+      tags:
+        - Schemas
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompileRequest'
+      responses:
+        '200':
+          description: Compilation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompileResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /queries:
+    post:
+      operationId: executeQuery
+      summary: Execute TaxiQL Query
+      description: >-
+        Execute a TaxiQL query against registered schemas and data sources. Taxi
+        orchestrates the required API calls, data lookups, and transformations to
+        fulfill the query.
+      tags:
+        - Queries
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+      responses:
+        '200':
+          description: Query results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /queries/{query_id}:
+    get:
+      operationId: getQueryStatus
+      summary: Get Query Status
+      description: Returns the status and results of an asynchronous TaxiQL query.
+      tags:
+        - Queries
+      parameters:
+        - name: query_id
+          in: path
+          required: true
+          description: Query execution ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Query status and results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /types:
+    get:
+      operationId: listTypes
+      summary: List Types
+      description: Returns all types defined across registered Taxi schemas.
+      tags:
+        - Types
+      parameters:
+        - name: namespace
+          in: query
+          required: false
+          description: Filter by namespace
+          schema:
+            type: string
+        - name: search
+          in: query
+          required: false
+          description: Search by type name
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of types
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TypeList'
+  /types/{qualified_name}:
+    get:
+      operationId: getType
+      summary: Get Type
+      description: Returns the definition of a specific Taxi type by qualified name.
+      tags:
+        - Types
+      parameters:
+        - name: qualified_name
+          in: path
+          required: true
+          description: Fully qualified type name (e.g., com.example.MovieTitle)
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Type definition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TypeDefinition'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /services:
+    get:
+      operationId: listServices
+      summary: List Services
+      description: Returns all API services registered in the Taxi schema registry.
+      tags:
+        - Services
+      responses:
+        '200':
+          description: List of services
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceList'
+  /services/{service_name}:
+    get:
+      operationId: getService
+      summary: Get Service
+      description: Returns a specific service definition including all operations.
+      tags:
+        - Services
+      parameters:
+        - name: service_name
+          in: path
+          required: true
+          description: Service name
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Service definition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceDefinition'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /convert/openapi:
+    post:
+      operationId: convertFromOpenApi
+      summary: Convert from OpenAPI
+      description: >-
+        Convert an OpenAPI specification to Taxi schema format, generating type
+        definitions and service declarations with semantic annotations.
+      tags:
+        - Conversion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConversionRequest'
+      responses:
+        '200':
+          description: Generated Taxi schema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversionResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+components:
+  responses:
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error description
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of specific error messages
+    Schema:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Schema registry identifier
+        name:
+          type: string
+          description: Schema name
+        namespace:
+          type: string
+          description: Taxi namespace
+        version:
+          type: string
+          description: Schema version
+        content:
+          type: string
+          description: Raw Taxi schema content
+        type_count:
+          type: integer
+          description: Number of types defined
+        service_count:
+          type: integer
+          description: Number of services defined
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    SchemaList:
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            $ref: '#/components/schemas/Schema'
+        total:
+          type: integer
+    SchemaRegistrationRequest:
+      type: object
+      required:
+        - name
+        - content
+      properties:
+        name:
+          type: string
+          description: Schema name
+        content:
+          type: string
+          description: Taxi schema source content
+        version:
+          type: string
+          description: Schema version
+    CompileRequest:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: string
+          description: Taxi schema source to compile
+        imported_schemas:
+          type: array
+          items:
+            type: string
+          description: Additional schema IDs to import during compilation
+    CompileResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Whether compilation succeeded
+        types:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeDefinition'
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceDefinition'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompileError'
+    CompileError:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+        line:
+          type: integer
+          description: Line number of error
+        column:
+          type: integer
+          description: Column number of error
+        severity:
+          type: string
+          enum:
+            - error
+            - warning
+    QueryRequest:
+      type: object
+      required:
+        - query
+      properties:
+        query:
+          type: string
+          description: TaxiQL query string
+        facts:
+          type: object
+          description: Starting facts as key-value pairs (typed values for query resolution)
+          additionalProperties: {}
+        async:
+          type: boolean
+          default: false
+          description: Whether to execute query asynchronously
+    QueryResult:
+      type: object
+      properties:
+        query_id:
+          type: string
+          description: Query execution ID
+        status:
+          type: string
+          enum:
+            - running
+            - complete
+            - failed
+        data:
+          description: Query result data
+        execution_plan:
+          type: array
+          items:
+            type: string
+          description: List of API calls executed to fulfill the query
+        duration_ms:
+          type: integer
+          description: Query execution time in milliseconds
+    TypeDefinition:
+      type: object
+      properties:
+        qualified_name:
+          type: string
+          description: Fully qualified type name
+        name:
+          type: string
+          description: Short type name
+        namespace:
+          type: string
+          description: Namespace
+        kind:
+          type: string
+          enum:
+            - type
+            - model
+            - enum
+            - type_alias
+          description: Type kind
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeField'
+        annotations:
+          type: array
+          items:
+            type: string
+          description: Applied annotations
+    TypeField:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Field name
+        type:
+          type: string
+          description: Field type (qualified name)
+        nullable:
+          type: boolean
+        annotations:
+          type: array
+          items:
+            type: string
+    TypeList:
+      type: object
+      properties:
+        types:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeDefinition'
+        total:
+          type: integer
+    ServiceDefinition:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Service name
+        base_url:
+          type: string
+          description: Service base URL
+        operations:
+          type: array
+          items:
+            $ref: '#/components/schemas/OperationDefinition'
+        annotations:
+          type: array
+          items:
+            type: string
+    OperationDefinition:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Operation name
+        method:
+          type: string
+          enum:
+            - GET
+            - POST
+            - PUT
+            - PATCH
+            - DELETE
+        url:
+          type: string
+          description: Operation URL
+        return_type:
+          type: string
+          description: Return type qualified name
+        parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/OperationParameter'
+    OperationParameter:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          description: Parameter type qualified name
+        placement:
+          type: string
+          enum:
+            - path
+            - query
+            - body
+            - header
+    ServiceList:
+      type: object
+      properties:
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceDefinition'
+        total:
+          type: integer
+    ConversionRequest:
+      type: object
+      required:
+        - spec_content
+      properties:
+        spec_content:
+          type: string
+          description: OpenAPI specification content (JSON or YAML)
+        namespace:
+          type: string
+          description: Target Taxi namespace for generated types
+        options:
+          type: object
+          description: Conversion options
+          properties:
+            generate_semantic_types:
+              type: boolean
+              default: true
+              description: Generate semantic type annotations
+            include_examples:
+              type: boolean
+              default: false
+    ConversionResult:
+      type: object
+      properties:
+        taxi_schema:
+          type: string
+          description: Generated Taxi schema content
+        type_count:
+          type: integer
+          description: Number of types generated
+        service_count:
+          type: integer
+          description: Number of services generated
+        warnings:
+          type: array
+          items:
+            type: string

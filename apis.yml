@@ -161,7 +161,7 @@ common:
   - type: Slack
     url: https://join.slack.com/t/taxi-lang/shared_invite
   - type: OpenAPI
-    url: openapi/taxi-language-openapi.yml
+    url: openapi/_original/taxi-language-openapi.yml
   - type: JSONSchema
     url: json-schema/taxi-schema-definition-schema.json
   - type: JSONStructure

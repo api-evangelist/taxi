@@ -1,0 +1,48 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Taxi Language Conversion Services API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Services",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Services",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.taxilang.org/services"
+          },
+          "docs": "Returns all API services registered in the Taxi schema registry."
+        },
+        {
+          "info": {
+            "name": "Get Service",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.taxilang.org/services/:service_name",
+            "params": [
+              {
+                "name": "service_name",
+                "value": "",
+                "type": "path",
+                "description": "Service name"
+              }
+            ]
+          },
+          "docs": "Returns a specific service definition including all operations."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,92 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Taxi Language Conversion Schemas API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Schemas",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Schemas",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.taxilang.org/schemas",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "query",
+                "description": "Filter by namespace"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum results to return"
+              }
+            ]
+          },
+          "docs": "Returns all registered Taxi schemas in the schema registry."
+        },
+        {
+          "info": {
+            "name": "Register Schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.taxilang.org/schemas",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Register a new Taxi schema with the schema registry."
+        },
+        {
+          "info": {
+            "name": "Get Schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.taxilang.org/schemas/:schema_id",
+            "params": [
+              {
+                "name": "schema_id",
+                "value": "",
+                "type": "path",
+                "description": "Schema identifier"
+              }
+            ]
+          },
+          "docs": "Returns a specific Taxi schema by ID."
+        },
+        {
+          "info": {
+            "name": "Compile Schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.taxilang.org/schemas/compile",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Compile and validate a Taxi schema, returning parsed types and any errors."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

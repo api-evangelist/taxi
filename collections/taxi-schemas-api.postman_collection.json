@@ -1,0 +1,527 @@
+{
+  "item": [
+    {
+      "id": "43c667bd-e932-4dde-bf7f-00ad4227c6f3",
+      "name": "Schemas",
+      "description": {
+        "content": "Taxi schema management and compilation",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e03db84b-db05-4f15-9bc3-29c1aa5bbbe2",
+          "name": "List Schemas",
+          "request": {
+            "name": "List Schemas",
+            "description": {
+              "content": "Returns all registered Taxi schemas in the schema registry.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "schemas"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "namespace",
+                  "value": "<string>",
+                  "description": "Filter by namespace"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "50",
+                  "description": "Maximum results to return"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f92b9ddf-791f-464a-8f6d-f3d7b5fa3522",
+              "name": "List of schemas",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schemas"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "namespace",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"schemas\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"namespace\": \"string\",\n      \"version\": \"string\",\n      \"content\": \"string\",\n      \"type_count\": 9192,\n      \"service_count\": 5810,\n      \"created_at\": \"1987-05-23T02:53:15.620Z\",\n      \"updated_at\": \"1982-04-14T11:41:06.033Z\"\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"namespace\": \"string\",\n      \"version\": \"string\",\n      \"content\": \"string\",\n      \"type_count\": 8960,\n      \"service_count\": 7332,\n      \"created_at\": \"1999-04-08T18:18:12.505Z\",\n      \"updated_at\": \"2022-04-27T12:14:36.907Z\"\n    }\n  ],\n  \"total\": 6368\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "277df5fa-b0cb-47e0-ae9e-b7f90e3fc78b",
+          "name": "Register Schema",
+          "request": {
+            "name": "Register Schema",
+            "description": {
+              "content": "Register a new Taxi schema with the schema registry.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "schemas"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"content\": \"<string>\",\n  \"version\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b5d6267b-13d1-43e8-b24b-cf2dd4a1099f",
+              "name": "Schema registered",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schemas"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"content\": \"<string>\",\n  \"version\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"namespace\": \"string\",\n  \"version\": \"string\",\n  \"content\": \"string\",\n  \"type_count\": 6309,\n  \"service_count\": 5843,\n  \"created_at\": \"2018-09-24T10:08:58.437Z\",\n  \"updated_at\": \"1971-11-04T01:49:18.316Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "affbc625-4c57-4d6b-a463-9fa8f0f8e04a",
+              "name": "Invalid request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schemas"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"content\": \"<string>\",\n  \"version\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1469a38b-7907-40f7-b6d0-e6f652b0b028",
+          "name": "Get Schema",
+          "request": {
+            "name": "Get Schema",
+            "description": {
+              "content": "Returns a specific Taxi schema by ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "schemas",
+                ":schema_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "schema_id",
+                  "description": "(Required) Schema identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "86a6a0d2-68b5-4ab9-9787-123742b51364",
+              "name": "Schema details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schemas",
+                    ":schema_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "schema_id",
+                      "description": "(Required) Schema identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"namespace\": \"string\",\n  \"version\": \"string\",\n  \"content\": \"string\",\n  \"type_count\": 6309,\n  \"service_count\": 5843,\n  \"created_at\": \"2018-09-24T10:08:58.437Z\",\n  \"updated_at\": \"1971-11-04T01:49:18.316Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6474beb5-99df-4c6f-91d2-cdd31d9d792c",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schemas",
+                    ":schema_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "schema_id",
+                      "description": "(Required) Schema identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e9c5d5d6-2368-4c21-a40d-86d009b8189a",
+          "name": "Compile Schema",
+          "request": {
+            "name": "Compile Schema",
+            "description": {
+              "content": "Compile and validate a Taxi schema, returning parsed types and any errors.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "schemas",
+                "compile"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"<string>\",\n  \"imported_schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "801b59ca-155c-49d7-9611-33146f9dbc57",
+              "name": "Compilation result",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schemas",
+                    "compile"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"content\": \"<string>\",\n  \"imported_schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"types\": [\n    {\n      \"qualified_name\": \"string\",\n      \"name\": \"string\",\n      \"namespace\": \"string\",\n      \"kind\": \"type\",\n      \"fields\": [\n        {\n          \"name\": \"string\",\n          \"type\": \"string\",\n          \"nullable\": false,\n          \"annotations\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"name\": \"string\",\n          \"type\": \"string\",\n          \"nullable\": true,\n          \"annotations\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"annotations\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"qualified_name\": \"string\",\n      \"name\": \"string\",\n      \"namespace\": \"string\",\n      \"kind\": \"type\",\n      \"fields\": [\n        {\n          \"name\": \"string\",\n          \"type\": \"string\",\n          \"nullable\": false,\n          \"annotations\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"name\": \"string\",\n          \"type\": \"string\",\n          \"nullable\": true,\n          \"annotations\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"annotations\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"services\": [\n    {\n      \"name\": \"string\",\n      \"base_url\": \"string\",\n      \"operations\": [\n        {\n          \"name\": \"string\",\n          \"method\": \"PATCH\",\n          \"url\": \"string\",\n          \"return_type\": \"string\",\n          \"parameters\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"placement\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"placement\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        {\n          \"name\": \"string\",\n          \"method\": \"PUT\",\n          \"url\": \"string\",\n          \"return_type\": \"string\",\n          \"parameters\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"placement\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"placement\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        }\n      ],\n      \"annotations\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"base_url\": \"string\",\n      \"operations\": [\n        {\n          \"name\": \"string\",\n          \"method\": \"POST\",\n          \"url\": \"string\",\n          \"return_type\": \"string\",\n          \"parameters\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"placement\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"placement\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        {\n          \"name\": \"string\",\n          \"method\": \"PUT\",\n          \"url\": \"string\",\n          \"return_type\": \"string\",\n          \"parameters\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"placement\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"placement\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        }\n      ],\n      \"annotations\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"line\": 6857,\n      \"column\": 8883,\n      \"severity\": \"error\"\n    },\n    {\n      \"message\": \"string\",\n      \"line\": 4366,\n      \"column\": 8250,\n      \"severity\": \"error\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "46371a31-a1e4-442d-83f9-1c1416024f0d",
+              "name": "Invalid request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schemas",
+                    "compile"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"content\": \"<string>\",\n  \"imported_schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.taxilang.org",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "acfd1a2e-7edc-41db-9709-ad6b63c4dfbe",
+    "name": "Taxi Language Conversion Schemas API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Taxi is an open-source language for describing APIs, data models, and how data relates across an entire ecosystem. This API covers the Taxi schema compiler service, TaxiQL query execution, schema registry operations, and tooling integrations for generating Taxi schemas from existing API specifications.\n\nContact Support:\n Name: Taxi Language",
+      "type": "text/plain"
+    }
+  }
+}

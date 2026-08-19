@@ -1,0 +1,62 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Taxi Language Conversion Types API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Types",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.taxilang.org/types",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "query",
+                "description": "Filter by namespace"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search by type name"
+              }
+            ]
+          },
+          "docs": "Returns all types defined across registered Taxi schemas."
+        },
+        {
+          "info": {
+            "name": "Get Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.taxilang.org/types/:qualified_name",
+            "params": [
+              {
+                "name": "qualified_name",
+                "value": "",
+                "type": "path",
+                "description": "Fully qualified type name (e.g., com.example.MovieTitle)"
+              }
+            ]
+          },
+          "docs": "Returns the definition of a specific Taxi type by qualified name."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

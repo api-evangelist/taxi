@@ -1,0 +1,52 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Taxi Language Conversion Queries API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Queries",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute TaxiQL Query",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.taxilang.org/queries",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Execute a TaxiQL query against registered schemas and data sources. Taxi orchestrates the required API calls, data lookups, and transformations to fulfill the query."
+        },
+        {
+          "info": {
+            "name": "Get Query Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.taxilang.org/queries/:query_id",
+            "params": [
+              {
+                "name": "query_id",
+                "value": "",
+                "type": "path",
+                "description": "Query execution ID"
+              }
+            ]
+          },
+          "docs": "Returns the status and results of an asynchronous TaxiQL query."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

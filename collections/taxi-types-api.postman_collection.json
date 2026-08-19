@@ -1,0 +1,256 @@
+{
+  "item": [
+    {
+      "id": "e361a166-dc7c-4236-808b-16370b20d214",
+      "name": "Types",
+      "description": {
+        "content": "Type registry and discovery",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "cf6b92fe-2df1-420a-b93e-c59bd361d339",
+          "name": "List Types",
+          "request": {
+            "name": "List Types",
+            "description": {
+              "content": "Returns all types defined across registered Taxi schemas.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "types"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "namespace",
+                  "value": "<string>",
+                  "description": "Filter by namespace"
+                },
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "Search by type name"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c9c1b325-7e3f-4e22-a985-f74339742425",
+              "name": "List of types",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "namespace",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"types\": [\n    {\n      \"qualified_name\": \"string\",\n      \"name\": \"string\",\n      \"namespace\": \"string\",\n      \"kind\": \"type_alias\",\n      \"fields\": [\n        {\n          \"name\": \"string\",\n          \"type\": \"string\",\n          \"nullable\": true,\n          \"annotations\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"name\": \"string\",\n          \"type\": \"string\",\n          \"nullable\": false,\n          \"annotations\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"annotations\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"qualified_name\": \"string\",\n      \"name\": \"string\",\n      \"namespace\": \"string\",\n      \"kind\": \"type\",\n      \"fields\": [\n        {\n          \"name\": \"string\",\n          \"type\": \"string\",\n          \"nullable\": true,\n          \"annotations\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"name\": \"string\",\n          \"type\": \"string\",\n          \"nullable\": true,\n          \"annotations\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"annotations\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"total\": 1627\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7fcfb04d-20b3-462a-a2aa-ba7d97ff0c1e",
+          "name": "Get Type",
+          "request": {
+            "name": "Get Type",
+            "description": {
+              "content": "Returns the definition of a specific Taxi type by qualified name.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "types",
+                ":qualified_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "qualified_name",
+                  "description": "(Required) Fully qualified type name (e.g., com.example.MovieTitle)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6e444749-9ed4-4fdf-830f-c06d46411004",
+              "name": "Type definition",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "types",
+                    ":qualified_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "qualified_name",
+                      "description": "(Required) Fully qualified type name (e.g., com.example.MovieTitle)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"qualified_name\": \"string\",\n  \"name\": \"string\",\n  \"namespace\": \"string\",\n  \"kind\": \"enum\",\n  \"fields\": [\n    {\n      \"name\": \"string\",\n      \"type\": \"string\",\n      \"nullable\": true,\n      \"annotations\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"type\": \"string\",\n      \"nullable\": false,\n      \"annotations\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"annotations\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "12301173-4669-4bb3-b750-a60fcc0c3367",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "types",
+                    ":qualified_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "qualified_name",
+                      "description": "(Required) Fully qualified type name (e.g., com.example.MovieTitle)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.taxilang.org",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "823d9344-8cf4-4738-bf11-ec63617dcc84",
+    "name": "Taxi Language Conversion Types API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Taxi is an open-source language for describing APIs, data models, and how data relates across an entire ecosystem. This API covers the Taxi schema compiler service, TaxiQL query execution, schema registry operations, and tooling integrations for generating Taxi schemas from existing API specifications.\n\nContact Support:\n Name: Taxi Language",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Taxi Language Conversion API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Conversion",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Convert from OpenAPI",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.taxilang.org/convert/openapi",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Convert an OpenAPI specification to Taxi schema format, generating type definitions and service declarations with semantic annotations."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

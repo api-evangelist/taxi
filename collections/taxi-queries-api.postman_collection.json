@@ -1,0 +1,298 @@
+{
+  "item": [
+    {
+      "id": "49707417-aade-4191-b49e-faf0d38c96f1",
+      "name": "Queries",
+      "description": {
+        "content": "TaxiQL query execution",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1a15b9fe-23c0-492c-9a46-9ac34e060e1f",
+          "name": "Execute TaxiQL Query",
+          "request": {
+            "name": "Execute TaxiQL Query",
+            "description": {
+              "content": "Execute a TaxiQL query against registered schemas and data sources. Taxi orchestrates the required API calls, data lookups, and transformations to fulfill the query.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "queries"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"<string>\",\n  \"facts\": {\n    \"key_0\": {}\n  },\n  \"async\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c29f5eb4-3e76-482c-af6c-143000a2047e",
+              "name": "Query results",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "queries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"<string>\",\n  \"facts\": {\n    \"key_0\": {},\n    \"key_1\": {},\n    \"key_2\": {}\n  },\n  \"async\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"query_id\": \"string\",\n  \"status\": \"running\",\n  \"data\": {},\n  \"execution_plan\": [\n    \"string\",\n    \"string\"\n  ],\n  \"duration_ms\": 9874\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b3ebe1f3-0963-42e7-9000-8842a2ef58ec",
+              "name": "Invalid request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "queries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"<string>\",\n  \"facts\": {\n    \"key_0\": {},\n    \"key_1\": {},\n    \"key_2\": {}\n  },\n  \"async\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9e8863e6-d6a2-4f6a-ad88-1dabf353b916",
+          "name": "Get Query Status",
+          "request": {
+            "name": "Get Query Status",
+            "description": {
+              "content": "Returns the status and results of an asynchronous TaxiQL query.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "queries",
+                ":query_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "query_id",
+                  "description": "(Required) Query execution ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "768bafbf-4582-43cc-9107-3d91c297ae80",
+              "name": "Query status and results",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "queries",
+                    ":query_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "query_id",
+                      "description": "(Required) Query execution ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"query_id\": \"string\",\n  \"status\": \"running\",\n  \"data\": {},\n  \"execution_plan\": [\n    \"string\",\n    \"string\"\n  ],\n  \"duration_ms\": 9874\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "554475ff-77a0-4f31-90bb-8dc812f1d3c5",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "queries",
+                    ":query_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "query_id",
+                      "description": "(Required) Query execution ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.taxilang.org",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "7d745392-87e3-49f8-9c3a-893a5bb5473a",
+    "name": "Taxi Language Conversion Queries API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Taxi is an open-source language for describing APIs, data models, and how data relates across an entire ecosystem. This API covers the Taxi schema compiler service, TaxiQL query execution, schema registry operations, and tooling integrations for generating Taxi schemas from existing API specifications.\n\nContact Support:\n Name: Taxi Language",
+      "type": "text/plain"
+    }
+  }
+}

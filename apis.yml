@@ -32,7 +32,7 @@ tags:
 created: '2026-01-05'
 modified: '2026-05-19'
 url: https://raw.githubusercontent.com/api-evangelist/taxi/refs/heads/main/apis.yml
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: taxi-describe-how-your-apis-and-data-relate:taxiql-query-api
   name: TaxiQL Query API

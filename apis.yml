@@ -25,6 +25,13 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/taxi.png
 tags:
   - API Description
   - Data Integration
+  - Open-Source
+  - Query Language
+  - Schema
+  - Semantic
+tags_raw:
+  - API Description
+  - Data Integration
   - Open Source
   - Query Language
   - Schema
@@ -42,6 +49,11 @@ apis:
     the data paths, calls APIs, and assembles results.
   humanURL: https://docs.taxilang.org/language-reference/querying-with-taxiql/
   tags:
+  - Data Query
+  - Federated Query
+  - Open-Source
+  - Query Language
+  tags_raw:
   - Data Query
   - Federated Query
   - Open Source
@@ -96,6 +108,8 @@ apis:
   description: TaxiQL query execution
   humanURL: https://taxilang.org/
   tags:
+  - Query
+  tags_raw:
   - Queries
   properties:
   - type: OpenAPI

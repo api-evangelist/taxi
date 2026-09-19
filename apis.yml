@@ -134,6 +134,8 @@ apis:
   description: Taxi schema management and compilation
   humanURL: https://taxilang.org/
   tags:
+  - Schema
+  tags_raw:
   - Schemas
   properties:
   - type: OpenAPI

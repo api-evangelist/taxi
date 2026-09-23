@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Taxi Language Conversion Schemas API
+  title: Taxi Language Schemas API
   description: Taxi is an open-source language for describing APIs, data models, and how data relates across an entire ecosystem. This API covers the Taxi schema compiler service, TaxiQL query execution, schema registry operations, and tooling integrations for generating Taxi schemas from existing API specifications.
   version: '1.0'
   contact:
@@ -112,35 +112,6 @@ paths:
           $ref: '#/components/responses/BadRequest'
 components:
   schemas:
-    TypeDefinition:
-      type: object
-      properties:
-        qualified_name:
-          type: string
-          description: Fully qualified type name
-        name:
-          type: string
-          description: Short type name
-        namespace:
-          type: string
-          description: Namespace
-        kind:
-          type: string
-          enum:
-          - type
-          - model
-          - enum
-          - type_alias
-          description: Type kind
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/TypeField'
-        annotations:
-          type: array
-          items:
-            type: string
-          description: Applied annotations
     ServiceDefinition:
       type: object
       properties:
@@ -158,24 +129,51 @@ components:
           type: array
           items:
             type: string
-    CompileResult:
+    CompileRequest:
+      type: object
+      required:
+      - content
+      properties:
+        content:
+          type: string
+          description: Taxi schema source to compile
+        imported_schemas:
+          type: array
+          items:
+            type: string
+          description: Additional schema IDs to import during compilation
+    CompileError:
       type: object
       properties:
-        success:
-          type: boolean
-          description: Whether compilation succeeded
-        types:
-          type: array
-          items:
-            $ref: '#/components/schemas/TypeDefinition'
-        services:
-          type: array
-          items:
-            $ref: '#/components/schemas/ServiceDefinition'
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/CompileError'
+        message:
+          type: string
+          description: Error message
+        line:
+          type: integer
+          description: Line number of error
+        column:
+          type: integer
+          description: Column number of error
+        severity:
+          type: string
+          enum:
+          - error
+          - warning
+    OperationParameter:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          description: Parameter type qualified name
+        placement:
+          type: string
+          enum:
+          - path
+          - query
+          - body
+          - header
     TypeField:
       type: object
       properties:
@@ -215,6 +213,77 @@ components:
             $ref: '#/components/schemas/Schema'
         total:
           type: integer
+    CompileResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Whether compilation succeeded
+        types:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeDefinition'
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceDefinition'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompileError'
+    TypeDefinition:
+      type: object
+      properties:
+        qualified_name:
+          type: string
+          description: Fully qualified type name
+        name:
+          type: string
+          description: Short type name
+        namespace:
+          type: string
+          description: Namespace
+        kind:
+          type: string
+          enum:
+          - type
+          - model
+          - enum
+          - type_alias
+          description: Type kind
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeField'
+        annotations:
+          type: array
+          items:
+            type: string
+          description: Applied annotations
+    OperationDefinition:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Operation name
+        method:
+          type: string
+          enum:
+          - GET
+          - POST
+          - PUT
+          - PATCH
+          - DELETE
+        url:
+          type: string
+          description: Operation URL
+        return_type:
+          type: string
+          description: Return type qualified name
+        parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/OperationParameter'
     Error:
       type: object
       properties:
@@ -259,84 +328,15 @@ components:
         updated_at:
           type: string
           format: date-time
-    CompileError:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Error message
-        line:
-          type: integer
-          description: Line number of error
-        column:
-          type: integer
-          description: Column number of error
-        severity:
-          type: string
-          enum:
-          - error
-          - warning
-    CompileRequest:
-      type: object
-      required:
-      - content
-      properties:
-        content:
-          type: string
-          description: Taxi schema source to compile
-        imported_schemas:
-          type: array
-          items:
-            type: string
-          description: Additional schema IDs to import during compilation
-    OperationDefinition:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Operation name
-        method:
-          type: string
-          enum:
-          - GET
-          - POST
-          - PUT
-          - PATCH
-          - DELETE
-        url:
-          type: string
-          description: Operation URL
-        return_type:
-          type: string
-          description: Return type qualified name
-        parameters:
-          type: array
-          items:
-            $ref: '#/components/schemas/OperationParameter'
-    OperationParameter:
-      type: object
-      properties:
-        name:
-          type: string
-        type:
-          type: string
-          description: Parameter type qualified name
-        placement:
-          type: string
-          enum:
-          - path
-          - query
-          - body
-          - header
   responses:
-    NotFound:
-      description: Resource not found
+    BadRequest:
+      description: Invalid request
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Invalid request
+    NotFound:
+      description: Resource not found
       content:
         application/json:
           schema:

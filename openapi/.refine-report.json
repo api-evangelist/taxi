@@ -1,11 +1,7 @@
 {
   "provider": "taxi",
   "sources": [
-    "taxi-conversion-api-openapi.yml",
-    "taxi-queries-api-openapi.yml",
-    "taxi-schemas-api-openapi.yml",
-    "taxi-services-api-openapi.yml",
-    "taxi-types-api-openapi.yml"
+    "_original/taxi-language-openapi.yml"
   ],
   "outputs": [
     "taxi-conversion-api-openapi.yml",
@@ -17,6 +13,16 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "taxi-language-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "taxi-conversion-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "taxi-queries-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "taxi-schemas-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "taxi-services-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "taxi-types-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

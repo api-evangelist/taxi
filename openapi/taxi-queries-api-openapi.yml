@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Taxi Language Conversion Queries API
+  title: Taxi Language Queries API
   description: Taxi is an open-source language for describing APIs, data models, and how data relates across an entire ecosystem. This API covers the Taxi schema compiler service, TaxiQL query execution, schema registry operations, and tooling integrations for generating Taxi schemas from existing API specifications.
   version: '1.0'
   contact:
@@ -63,28 +63,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    QueryResult:
-      type: object
-      properties:
-        query_id:
-          type: string
-          description: Query execution ID
-        status:
-          type: string
-          enum:
-          - running
-          - complete
-          - failed
-        data:
-          description: Query result data
-        execution_plan:
-          type: array
-          items:
-            type: string
-          description: List of API calls executed to fulfill the query
-        duration_ms:
-          type: integer
-          description: Query execution time in milliseconds
     Error:
       type: object
       properties:
@@ -115,6 +93,28 @@ components:
           type: boolean
           default: false
           description: Whether to execute query asynchronously
+    QueryResult:
+      type: object
+      properties:
+        query_id:
+          type: string
+          description: Query execution ID
+        status:
+          type: string
+          enum:
+          - running
+          - complete
+          - failed
+        data:
+          description: Query result data
+        execution_plan:
+          type: array
+          items:
+            type: string
+          description: List of API calls executed to fulfill the query
+        duration_ms:
+          type: integer
+          description: Query execution time in milliseconds
   responses:
     NotFound:
       description: Resource not found

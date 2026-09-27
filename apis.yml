@@ -9,14 +9,18 @@ description: >-
 type: Index
 deliveryModel:
   model: unknown
-  open_source: false
+  license_evidence:
+    not_product:
+    - taxilang/taxilang
+  open_source: unknown
   commercial: false
   callable_host: false
   label: Delivery model not determined — needs a product licence on record
   confidence: low
   source:
   - openapi
-  generated: '2026-08-28'
+  - repository-not-product
+  generated: '2026-09-25'
   method: derived
 accessModel:
   pricing: freemium
@@ -36,7 +40,7 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/taxi.png
 tags:
   - API Description
   - Data Integration
-  - Open-Source
+  - Open Source
   - Query Language
   - Schema
   - Semantic
@@ -47,6 +51,7 @@ tags_raw:
   - Query Language
   - Schema
   - Semantic
+  - Open-Source
 created: '2026-01-05'
 modified: '2026-05-19'
 url: https://raw.githubusercontent.com/api-evangelist/taxi/refs/heads/main/apis.yml
@@ -62,13 +67,14 @@ apis:
   tags:
   - Data Query
   - Federated Query
-  - Open-Source
+  - Open Source
   - Query Language
   tags_raw:
   - Data Query
   - Federated Query
   - Open Source
   - Query Language
+  - Open-Source
   properties:
   - type: Documentation
     url: https://docs.taxilang.org/language-reference/querying-with-taxiql/

@@ -112,23 +112,6 @@ paths:
           $ref: '#/components/responses/BadRequest'
 components:
   schemas:
-    ServiceDefinition:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Service name
-        base_url:
-          type: string
-          description: Service base URL
-        operations:
-          type: array
-          items:
-            $ref: '#/components/schemas/OperationDefinition'
-        annotations:
-          type: array
-          items:
-            type: string
     CompileRequest:
       type: object
       required:
@@ -159,36 +142,6 @@ components:
           enum:
           - error
           - warning
-    OperationParameter:
-      type: object
-      properties:
-        name:
-          type: string
-        type:
-          type: string
-          description: Parameter type qualified name
-        placement:
-          type: string
-          enum:
-          - path
-          - query
-          - body
-          - header
-    TypeField:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Field name
-        type:
-          type: string
-          description: Field type (qualified name)
-        nullable:
-          type: boolean
-        annotations:
-          type: array
-          items:
-            type: string
     SchemaRegistrationRequest:
       type: object
       required:
@@ -204,15 +157,6 @@ components:
         version:
           type: string
           description: Schema version
-    SchemaList:
-      type: object
-      properties:
-        schemas:
-          type: array
-          items:
-            $ref: '#/components/schemas/Schema'
-        total:
-          type: integer
     CompileResult:
       type: object
       properties:
@@ -231,35 +175,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CompileError'
-    TypeDefinition:
+    SchemaList:
       type: object
       properties:
-        qualified_name:
-          type: string
-          description: Fully qualified type name
-        name:
-          type: string
-          description: Short type name
-        namespace:
-          type: string
-          description: Namespace
-        kind:
-          type: string
-          enum:
-          - type
-          - model
-          - enum
-          - type_alias
-          description: Type kind
-        fields:
+        schemas:
           type: array
           items:
-            $ref: '#/components/schemas/TypeField'
-        annotations:
-          type: array
-          items:
-            type: string
-          description: Applied annotations
+            $ref: '#/components/schemas/Schema'
+        total:
+          type: integer
     OperationDefinition:
       type: object
       properties:
@@ -284,20 +208,21 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OperationParameter'
-    Error:
+    OperationParameter:
       type: object
       properties:
-        code:
+        name:
           type: string
-          description: Error code
-        message:
+        type:
           type: string
-          description: Human-readable error description
-        errors:
-          type: array
-          items:
-            type: string
-          description: List of specific error messages
+          description: Parameter type qualified name
+        placement:
+          type: string
+          enum:
+          - path
+          - query
+          - body
+          - header
     Schema:
       type: object
       properties:
@@ -328,6 +253,81 @@ components:
         updated_at:
           type: string
           format: date-time
+    TypeDefinition:
+      type: object
+      properties:
+        qualified_name:
+          type: string
+          description: Fully qualified type name
+        name:
+          type: string
+          description: Short type name
+        namespace:
+          type: string
+          description: Namespace
+        kind:
+          type: string
+          enum:
+          - type
+          - model
+          - enum
+          - type_alias
+          description: Type kind
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeField'
+        annotations:
+          type: array
+          items:
+            type: string
+          description: Applied annotations
+    ServiceDefinition:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Service name
+        base_url:
+          type: string
+          description: Service base URL
+        operations:
+          type: array
+          items:
+            $ref: '#/components/schemas/OperationDefinition'
+        annotations:
+          type: array
+          items:
+            type: string
+    TypeField:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Field name
+        type:
+          type: string
+          description: Field type (qualified name)
+        nullable:
+          type: boolean
+        annotations:
+          type: array
+          items:
+            type: string
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error description
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of specific error messages
   responses:
     BadRequest:
       description: Invalid request

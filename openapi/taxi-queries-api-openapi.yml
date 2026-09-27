@@ -63,20 +63,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error description
-        errors:
-          type: array
-          items:
-            type: string
-          description: List of specific error messages
     QueryRequest:
       type: object
       required:
@@ -115,15 +101,29 @@ components:
         duration_ms:
           type: integer
           description: Query execution time in milliseconds
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error description
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of specific error messages
   responses:
-    NotFound:
-      description: Resource not found
+    BadRequest:
+      description: Invalid request
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Invalid request
+    NotFound:
+      description: Resource not found
       content:
         application/json:
           schema:

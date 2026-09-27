@@ -77,21 +77,6 @@ components:
             $ref: '#/components/schemas/TypeDefinition'
         total:
           type: integer
-    TypeField:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Field name
-        type:
-          type: string
-          description: Field type (qualified name)
-        nullable:
-          type: boolean
-        annotations:
-          type: array
-          items:
-            type: string
     TypeDefinition:
       type: object
       properties:
@@ -121,6 +106,21 @@ components:
           items:
             type: string
           description: Applied annotations
+    TypeField:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Field name
+        type:
+          type: string
+          description: Field type (qualified name)
+        nullable:
+          type: boolean
+        annotations:
+          type: array
+          items:
+            type: string
     Error:
       type: object
       properties:

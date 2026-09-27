@@ -55,37 +55,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error description
-        errors:
-          type: array
-          items:
-            type: string
-          description: List of specific error messages
-    ServiceDefinition:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Service name
-        base_url:
-          type: string
-          description: Service base URL
-        operations:
-          type: array
-          items:
-            $ref: '#/components/schemas/OperationDefinition'
-        annotations:
-          type: array
-          items:
-            type: string
     OperationParameter:
       type: object
       properties:
@@ -134,6 +103,37 @@ components:
             $ref: '#/components/schemas/ServiceDefinition'
         total:
           type: integer
+    ServiceDefinition:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Service name
+        base_url:
+          type: string
+          description: Service base URL
+        operations:
+          type: array
+          items:
+            $ref: '#/components/schemas/OperationDefinition'
+        annotations:
+          type: array
+          items:
+            type: string
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error description
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of specific error messages
   responses:
     NotFound:
       description: Resource not found

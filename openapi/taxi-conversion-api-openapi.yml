@@ -54,6 +54,22 @@ components:
           items:
             type: string
           description: List of specific error messages
+    ConversionResult:
+      type: object
+      properties:
+        taxi_schema:
+          type: string
+          description: Generated Taxi schema content
+        type_count:
+          type: integer
+          description: Number of types generated
+        service_count:
+          type: integer
+          description: Number of services generated
+        warnings:
+          type: array
+          items:
+            type: string
     ConversionRequest:
       type: object
       required:
@@ -76,22 +92,6 @@ components:
             include_examples:
               type: boolean
               default: false
-    ConversionResult:
-      type: object
-      properties:
-        taxi_schema:
-          type: string
-          description: Generated Taxi schema content
-        type_count:
-          type: integer
-          description: Number of types generated
-        service_count:
-          type: integer
-          description: Number of services generated
-        warnings:
-          type: array
-          items:
-            type: string
   responses:
     BadRequest:
       description: Invalid request

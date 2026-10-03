@@ -68,15 +68,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    TypeList:
-      type: object
-      properties:
-        types:
-          type: array
-          items:
-            $ref: '#/components/schemas/TypeDefinition'
-        total:
-          type: integer
     TypeDefinition:
       type: object
       properties:
@@ -135,6 +126,15 @@ components:
           items:
             type: string
           description: List of specific error messages
+    TypeList:
+      type: object
+      properties:
+        types:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeDefinition'
+        total:
+          type: integer
   responses:
     NotFound:
       description: Resource not found

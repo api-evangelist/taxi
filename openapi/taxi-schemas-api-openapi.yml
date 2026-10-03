@@ -112,36 +112,35 @@ paths:
           $ref: '#/components/responses/BadRequest'
 components:
   schemas:
-    CompileRequest:
+    TypeDefinition:
       type: object
-      required:
-      - content
       properties:
-        content:
+        qualified_name:
           type: string
-          description: Taxi schema source to compile
-        imported_schemas:
+          description: Fully qualified type name
+        name:
+          type: string
+          description: Short type name
+        namespace:
+          type: string
+          description: Namespace
+        kind:
+          type: string
+          enum:
+          - type
+          - model
+          - enum
+          - type_alias
+          description: Type kind
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeField'
+        annotations:
           type: array
           items:
             type: string
-          description: Additional schema IDs to import during compilation
-    CompileError:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Error message
-        line:
-          type: integer
-          description: Line number of error
-        column:
-          type: integer
-          description: Column number of error
-        severity:
-          type: string
-          enum:
-          - error
-          - warning
+          description: Applied annotations
     SchemaRegistrationRequest:
       type: object
       required:
@@ -157,72 +156,36 @@ components:
         version:
           type: string
           description: Schema version
-    CompileResult:
+    CompileRequest:
       type: object
+      required:
+      - content
       properties:
-        success:
-          type: boolean
-          description: Whether compilation succeeded
-        types:
+        content:
+          type: string
+          description: Taxi schema source to compile
+        imported_schemas:
           type: array
           items:
-            $ref: '#/components/schemas/TypeDefinition'
-        services:
-          type: array
-          items:
-            $ref: '#/components/schemas/ServiceDefinition'
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/CompileError'
-    SchemaList:
-      type: object
-      properties:
-        schemas:
-          type: array
-          items:
-            $ref: '#/components/schemas/Schema'
-        total:
-          type: integer
-    OperationDefinition:
+            type: string
+          description: Additional schema IDs to import during compilation
+    ServiceDefinition:
       type: object
       properties:
         name:
           type: string
-          description: Operation name
-        method:
+          description: Service name
+        base_url:
           type: string
-          enum:
-          - GET
-          - POST
-          - PUT
-          - PATCH
-          - DELETE
-        url:
-          type: string
-          description: Operation URL
-        return_type:
-          type: string
-          description: Return type qualified name
-        parameters:
+          description: Service base URL
+        operations:
           type: array
           items:
-            $ref: '#/components/schemas/OperationParameter'
-    OperationParameter:
-      type: object
-      properties:
-        name:
-          type: string
-        type:
-          type: string
-          description: Parameter type qualified name
-        placement:
-          type: string
-          enum:
-          - path
-          - query
-          - body
-          - header
+            $ref: '#/components/schemas/OperationDefinition'
+        annotations:
+          type: array
+          items:
+            type: string
     Schema:
       type: object
       properties:
@@ -253,52 +216,77 @@ components:
         updated_at:
           type: string
           format: date-time
-    TypeDefinition:
+    OperationDefinition:
       type: object
       properties:
-        qualified_name:
-          type: string
-          description: Fully qualified type name
         name:
           type: string
-          description: Short type name
-        namespace:
-          type: string
-          description: Namespace
-        kind:
+          description: Operation name
+        method:
           type: string
           enum:
-          - type
-          - model
-          - enum
-          - type_alias
-          description: Type kind
-        fields:
+          - GET
+          - POST
+          - PUT
+          - PATCH
+          - DELETE
+        url:
+          type: string
+          description: Operation URL
+        return_type:
+          type: string
+          description: Return type qualified name
+        parameters:
           type: array
           items:
-            $ref: '#/components/schemas/TypeField'
-        annotations:
+            $ref: '#/components/schemas/OperationParameter'
+    CompileResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Whether compilation succeeded
+        types:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeDefinition'
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceDefinition'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompileError'
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error description
+        errors:
           type: array
           items:
             type: string
-          description: Applied annotations
-    ServiceDefinition:
+          description: List of specific error messages
+    OperationParameter:
       type: object
       properties:
         name:
           type: string
-          description: Service name
-        base_url:
+        type:
           type: string
-          description: Service base URL
-        operations:
-          type: array
-          items:
-            $ref: '#/components/schemas/OperationDefinition'
-        annotations:
-          type: array
-          items:
-            type: string
+          description: Parameter type qualified name
+        placement:
+          type: string
+          enum:
+          - path
+          - query
+          - body
+          - header
     TypeField:
       type: object
       properties:
@@ -314,29 +302,41 @@ components:
           type: array
           items:
             type: string
-    Error:
+    SchemaList:
       type: object
       properties:
-        code:
-          type: string
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error description
-        errors:
+        schemas:
           type: array
           items:
-            type: string
-          description: List of specific error messages
+            $ref: '#/components/schemas/Schema'
+        total:
+          type: integer
+    CompileError:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+        line:
+          type: integer
+          description: Line number of error
+        column:
+          type: integer
+          description: Column number of error
+        severity:
+          type: string
+          enum:
+          - error
+          - warning
   responses:
-    BadRequest:
-      description: Invalid request
+    NotFound:
+      description: Resource not found
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
+    BadRequest:
+      description: Invalid request
       content:
         application/json:
           schema:

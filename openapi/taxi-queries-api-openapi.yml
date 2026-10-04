@@ -62,7 +62,42 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    QueryResult:
+      type: object
+      properties:
+        query_id:
+          type: string
+          description: Query execution ID
+        status:
+          type: string
+          enum:
+          - running
+          - complete
+          - failed
+        data:
+          description: Query result data
+        execution_plan:
+          type: array
+          items:
+            type: string
+          description: List of API calls executed to fulfill the query
+        duration_ms:
+          type: integer
+          description: Query execution time in milliseconds
     Error:
       type: object
       properties:
@@ -93,41 +128,6 @@ components:
           type: boolean
           default: false
           description: Whether to execute query asynchronously
-    QueryResult:
-      type: object
-      properties:
-        query_id:
-          type: string
-          description: Query execution ID
-        status:
-          type: string
-          enum:
-          - running
-          - complete
-          - failed
-        data:
-          description: Query result data
-        execution_plan:
-          type: array
-          items:
-            type: string
-          description: List of API calls executed to fulfill the query
-        duration_ms:
-          type: integer
-          description: Query execution time in milliseconds
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Invalid request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
 externalDocs:
   description: Taxi Language Documentation
   url: https://docs.taxilang.org/

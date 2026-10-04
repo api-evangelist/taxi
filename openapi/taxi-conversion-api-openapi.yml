@@ -39,21 +39,14 @@ paths:
         '400':
           $ref: '#/components/responses/BadRequest'
 components:
+  responses:
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error description
-        errors:
-          type: array
-          items:
-            type: string
-          description: List of specific error messages
     ConversionRequest:
       type: object
       required:
@@ -92,13 +85,20 @@ components:
           type: array
           items:
             type: string
-  responses:
-    BadRequest:
-      description: Invalid request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error description
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of specific error messages
 externalDocs:
   description: Taxi Language Documentation
   url: https://docs.taxilang.org/

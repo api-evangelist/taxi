@@ -111,126 +111,20 @@ paths:
         '400':
           $ref: '#/components/responses/BadRequest'
 components:
+  responses:
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    ServiceDefinition:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Service name
-        base_url:
-          type: string
-          description: Service base URL
-        operations:
-          type: array
-          items:
-            $ref: '#/components/schemas/OperationDefinition'
-        annotations:
-          type: array
-          items:
-            type: string
-    CompileRequest:
-      type: object
-      required:
-      - content
-      properties:
-        content:
-          type: string
-          description: Taxi schema source to compile
-        imported_schemas:
-          type: array
-          items:
-            type: string
-          description: Additional schema IDs to import during compilation
-    CompileError:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Error message
-        line:
-          type: integer
-          description: Line number of error
-        column:
-          type: integer
-          description: Column number of error
-        severity:
-          type: string
-          enum:
-          - error
-          - warning
-    OperationParameter:
-      type: object
-      properties:
-        name:
-          type: string
-        type:
-          type: string
-          description: Parameter type qualified name
-        placement:
-          type: string
-          enum:
-          - path
-          - query
-          - body
-          - header
-    TypeField:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Field name
-        type:
-          type: string
-          description: Field type (qualified name)
-        nullable:
-          type: boolean
-        annotations:
-          type: array
-          items:
-            type: string
-    SchemaRegistrationRequest:
-      type: object
-      required:
-      - name
-      - content
-      properties:
-        name:
-          type: string
-          description: Schema name
-        content:
-          type: string
-          description: Taxi schema source content
-        version:
-          type: string
-          description: Schema version
-    SchemaList:
-      type: object
-      properties:
-        schemas:
-          type: array
-          items:
-            $ref: '#/components/schemas/Schema'
-        total:
-          type: integer
-    CompileResult:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Whether compilation succeeded
-        types:
-          type: array
-          items:
-            $ref: '#/components/schemas/TypeDefinition'
-        services:
-          type: array
-          items:
-            $ref: '#/components/schemas/ServiceDefinition'
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/CompileError'
     TypeDefinition:
       type: object
       properties:
@@ -260,6 +154,38 @@ components:
           items:
             type: string
           description: Applied annotations
+    CompileError:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+        line:
+          type: integer
+          description: Line number of error
+        column:
+          type: integer
+          description: Column number of error
+        severity:
+          type: string
+          enum:
+          - error
+          - warning
+    TypeField:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Field name
+        type:
+          type: string
+          description: Field type (qualified name)
+        nullable:
+          type: boolean
+        annotations:
+          type: array
+          items:
+            type: string
     OperationDefinition:
       type: object
       properties:
@@ -284,20 +210,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OperationParameter'
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error description
-        errors:
-          type: array
-          items:
-            type: string
-          description: List of specific error messages
     Schema:
       type: object
       properties:
@@ -328,19 +240,107 @@ components:
         updated_at:
           type: string
           format: date-time
-  responses:
-    BadRequest:
-      description: Invalid request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    SchemaRegistrationRequest:
+      type: object
+      required:
+      - name
+      - content
+      properties:
+        name:
+          type: string
+          description: Schema name
+        content:
+          type: string
+          description: Taxi schema source content
+        version:
+          type: string
+          description: Schema version
+    CompileResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Whether compilation succeeded
+        types:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeDefinition'
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceDefinition'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompileError'
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error description
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of specific error messages
+    ServiceDefinition:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Service name
+        base_url:
+          type: string
+          description: Service base URL
+        operations:
+          type: array
+          items:
+            $ref: '#/components/schemas/OperationDefinition'
+        annotations:
+          type: array
+          items:
+            type: string
+    CompileRequest:
+      type: object
+      required:
+      - content
+      properties:
+        content:
+          type: string
+          description: Taxi schema source to compile
+        imported_schemas:
+          type: array
+          items:
+            type: string
+          description: Additional schema IDs to import during compilation
+    OperationParameter:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          description: Parameter type qualified name
+        placement:
+          type: string
+          enum:
+          - path
+          - query
+          - body
+          - header
+    SchemaList:
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            $ref: '#/components/schemas/Schema'
+        total:
+          type: integer
 externalDocs:
   description: Taxi Language Documentation
   url: https://docs.taxilang.org/

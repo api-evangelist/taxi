@@ -9,14 +9,18 @@ description: >-
 type: Index
 deliveryModel:
   model: unknown
-  open_source: false
+  license_evidence:
+    not_product:
+    - taxilang/taxilang
+  open_source: unknown
   commercial: false
   callable_host: false
   label: Delivery model not determined — needs a product licence on record
   confidence: low
   source:
   - openapi
-  generated: '2026-08-28'
+  - repository-not-product
+  generated: '2026-09-25'
   method: derived
 accessModel:
   pricing: freemium
@@ -47,6 +51,7 @@ tags_raw:
   - Query Language
   - Schema
   - Semantic
+  - Open-Source
 created: '2026-01-05'
 modified: '2026-05-19'
 url: https://raw.githubusercontent.com/api-evangelist/taxi/refs/heads/main/apis.yml
@@ -69,6 +74,7 @@ apis:
   - Federated Query
   - Open Source
   - Query Language
+  - Open-Source
   properties:
   - type: Documentation
     url: https://docs.taxilang.org/language-reference/querying-with-taxiql/
@@ -171,6 +177,12 @@ apis:
   - type: GitHub
     url: https://github.com/taxilang/taxilang
 common:
+  - type: Plans
+    url: plans/taxi-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/taxi-rate-limits.yml
+  - type: FinOps
+    url: finops/taxi-finops.yml
   - type: AgenticAccess
     url: agentic-access/taxi-agentic-access.yml
   - type: DomainSecurity

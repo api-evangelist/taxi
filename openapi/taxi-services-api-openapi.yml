@@ -55,6 +55,23 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    ServiceDefinition:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Service name
+        base_url:
+          type: string
+          description: Service base URL
+        operations:
+          type: array
+          items:
+            $ref: '#/components/schemas/OperationDefinition'
+        annotations:
+          type: array
+          items:
+            type: string
     ServiceList:
       type: object
       properties:
@@ -102,23 +119,6 @@ components:
           items:
             type: string
           description: List of specific error messages
-    ServiceDefinition:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Service name
-        base_url:
-          type: string
-          description: Service base URL
-        operations:
-          type: array
-          items:
-            $ref: '#/components/schemas/OperationDefinition'
-        annotations:
-          type: array
-          items:
-            type: string
     OperationParameter:
       type: object
       properties:

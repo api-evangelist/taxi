@@ -62,20 +62,23 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    BadRequest:
-      description: Invalid request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    QueryRequest:
+      type: object
+      required:
+      - query
+      properties:
+        query:
+          type: string
+          description: TaxiQL query string
+        facts:
+          type: object
+          description: Starting facts as key-value pairs (typed values for query resolution)
+          additionalProperties: {}
+        async:
+          type: boolean
+          default: false
+          description: Whether to execute query asynchronously
     QueryResult:
       type: object
       properties:
@@ -112,22 +115,19 @@ components:
           items:
             type: string
           description: List of specific error messages
-    QueryRequest:
-      type: object
-      required:
-      - query
-      properties:
-        query:
-          type: string
-          description: TaxiQL query string
-        facts:
-          type: object
-          description: Starting facts as key-value pairs (typed values for query resolution)
-          additionalProperties: {}
-        async:
-          type: boolean
-          default: false
-          description: Whether to execute query asynchronously
+  responses:
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
 externalDocs:
   description: Taxi Language Documentation
   url: https://docs.taxilang.org/

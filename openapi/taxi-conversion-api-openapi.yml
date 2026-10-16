@@ -39,14 +39,37 @@ paths:
         '400':
           $ref: '#/components/responses/BadRequest'
 components:
-  responses:
-    BadRequest:
-      description: Invalid request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error description
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of specific error messages
+    ConversionResult:
+      type: object
+      properties:
+        taxi_schema:
+          type: string
+          description: Generated Taxi schema content
+        type_count:
+          type: integer
+          description: Number of types generated
+        service_count:
+          type: integer
+          description: Number of services generated
+        warnings:
+          type: array
+          items:
+            type: string
     ConversionRequest:
       type: object
       required:
@@ -69,36 +92,13 @@ components:
             include_examples:
               type: boolean
               default: false
-    ConversionResult:
-      type: object
-      properties:
-        taxi_schema:
-          type: string
-          description: Generated Taxi schema content
-        type_count:
-          type: integer
-          description: Number of types generated
-        service_count:
-          type: integer
-          description: Number of services generated
-        warnings:
-          type: array
-          items:
-            type: string
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error description
-        errors:
-          type: array
-          items:
-            type: string
-          description: List of specific error messages
+  responses:
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
 externalDocs:
   description: Taxi Language Documentation
   url: https://docs.taxilang.org/

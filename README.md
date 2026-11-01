@@ -1,4 +1,4 @@
-# Taxi - Describe How Your APIs and Data Relate (taxi-describe-how-your-apis-and-data-relate)
+# Taxi - Describe How Your APIs and Data Relate
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,124 +66,162 @@
 
 Taxi is an open-source language (Apache 2.0) for describing APIs, data models, and how data relates across an entire ecosystem. TaxiQL is a declarative query language that lets consumers define the data they want while Taxi handles orchestration across REST APIs, databases, Kafka topics, gRPC services, and S3 buckets. Taxi eliminates manual integration code by using semantic type annotations to automatically discover data paths and adapt to evolving API schemas.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/taxi/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/taxi/refs/heads/main/apis.yml)
+**Areas:** API Description · Data Integration · Open Source · Query Language · Schema · Semantic
 
-## Scope
+## Taxi - Describe How Your APIs and Data Relate on APIs.io
 
-- **Type:** Index
-- **Position:** Consumer
-- **Access:** 3rd-Party
+Everything profiled for Taxi - Describe How Your APIs and Data Relate is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/taxi/](https://apis.io/providers/taxi/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (8)
 
-- API Description
-- Data Integration
-- Open Source
-- Query Language
-- Schema
-- Semantic
+- [TaxiQL Query API](https://apis.io/apis/taxi/taxiql-query-api/) — TaxiQL is a declarative query language for federated data retrieval across multiple APIs and data sources. Queries specify the desired data structure using…
+- [Orbital Platform](https://apis.io/apis/taxi/orbital-platform/) — Orbital is the companion data platform for Taxi that hosts TaxiQL queries, provides a schema registry, and executes federated data integrations across APIs,…
+- [Taxi Playground](https://apis.io/apis/taxi/taxi-playground/) — Interactive web-based editor for writing Taxi schemas and TaxiQL queries with live diagram generation and query execution preview.
+- [Taxi - Describe How Your APIs and Data Relate Conversion API](https://apis.io/apis/taxi/taxi-conversion-api/) — Convert existing specs to Taxi format
+- [Taxi - Describe How Your APIs and Data Relate Queries API](https://apis.io/apis/taxi/taxi-queries-api/) — TaxiQL query execution
+- [Taxi - Describe How Your APIs and Data Relate Schemas API](https://apis.io/apis/taxi/taxi-schemas-api/) — Taxi schema management and compilation
+- [Taxi - Describe How Your APIs and Data Relate Services API](https://apis.io/apis/taxi/taxi-services-api/) — Service registry operations
+- [Taxi - Describe How Your APIs and Data Relate Types API](https://apis.io/apis/taxi/taxi-types-api/) — Type registry and discovery
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-01-05
-- **Modified:** 2026-05-19
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### Agentic access (1)
 
-### Taxi Language
+Which operations an agent can call, which act, and which need a human in the loop.
 
-The core Taxi schema language for defining types, models, API services, and semantic annotations. Used to describe OpenAPI, Protobuf, database schemas, and Kafka topics with rich type semantics that power TaxiQL queries and data orchestration.
+- [Taxi Agentic Access](https://apis.io/agentic-access/taxi/taxi-agentic-access/)
 
-- **Human URL:** [https://taxilang.org/](https://taxilang.org/)
+#### JSON Schema (1)
 
-#### Tags
+The data models the API reads and writes.
 
-- API Description
-- Data Modeling
-- Open Source
-- Schema
-- Semantic Types
+- [Taxi Schema Definition](https://apis.io/schemas/taxi/taxi-schema-definition/)
 
-#### Properties
+#### JSON Structure (1)
 
-- [Documentation](https://docs.taxilang.org/)
-- [Git Hub](https://github.com/taxilang/taxilang)
-- [OpenAPI](openapi/taxi-language-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/taxi-language.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/taxi-language.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Data models expressed in JSON Structure.
 
-### TaxiQL Query API
+- [Taxi Schema Structure](https://apis.io/json-structure/taxi/taxi-schema-structure/)
 
-TaxiQL is a declarative query language for federated data retrieval across multiple APIs and data sources. Queries specify the desired data structure using semantic types and Taxi automatically discovers the data paths, calls APIs, and assembles results.
+#### JSON-LD (1)
 
-- **Human URL:** [https://docs.taxilang.org/language-reference/querying-with-taxiql/](https://docs.taxilang.org/language-reference/querying-with-taxiql/)
+Linked-data contexts for the provider's vocabulary.
 
-#### Tags
+- [Taxi Context](https://apis.io/jsonld/taxi/taxi-context/)
 
-- Data Query
-- Federated Query
-- Open Source
-- Query Language
+#### Vocabulary (1)
 
-#### Properties
+The provider's domain terms, defined.
 
-- [Documentation](https://docs.taxilang.org/language-reference/querying-with-taxiql/)
-- [Git Hub](https://github.com/taxilang/taxilang)
-- [Postman Collection](collections/taxi-language.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/taxi-language.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Taxi Vocabulary](https://apis.io/vocabularies/taxi/taxi-vocabulary/)
 
-### Orbital Platform
+#### Examples (2)
 
-Orbital is the companion data platform for Taxi that hosts TaxiQL queries, provides a schema registry, and executes federated data integrations across APIs, databases, and streams using Taxi annotations.
+Example requests and responses.
 
-- **Human URL:** [https://orbitalhq.com](https://orbitalhq.com)
+- [Taxi Compile Schema Example](https://apis.io/examples/taxi/taxi-compile-schema-example/)
+- [Taxi Execute Query Example](https://apis.io/examples/taxi/taxi-execute-query-example/)
 
-#### Tags
+#### Collections (6)
 
-- Data Platform
-- Federated Query
-- Integration
-- Schema Registry
+Postman and Open Collection request collections.
 
-#### Properties
+- [Taxi Language Conversion API](https://apis.io/collections/taxi/open-taxi-conversion-api/)
+- [Taxi Language API](https://apis.io/collections/taxi/open-taxi-language/)
+- [Taxi Language Conversion Queries API](https://apis.io/collections/taxi/open-taxi-queries-api/)
+- [Taxi Language Conversion Schemas API](https://apis.io/collections/taxi/open-taxi-schemas-api/)
+- [Taxi Language Conversion Services API](https://apis.io/collections/taxi/open-taxi-services-api/)
+- [Taxi Language Conversion Types API](https://apis.io/collections/taxi/open-taxi-types-api/)
 
-- [Documentation](https://orbitalhq.com)
-- [Postman Collection](collections/taxi-language.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/taxi-language.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Governance rules (2)
 
-### Taxi Playground
+Spectral rulesets for the provider's contracts.
 
-Interactive web-based editor for writing Taxi schemas and TaxiQL queries with live diagram generation and query execution preview.
+- [Taxi - Describe How Your APIs and Data Relate — jsonschema rules](https://apis.io/rules/taxi/taxi-jsonschema-spectral-rules/)
+- [Taxi - Describe How Your APIs and Data Relate API Rules](https://apis.io/rules/taxi/taxi-spectral-rules/)
 
-- **Human URL:** [https://playground.taxilang.org](https://playground.taxilang.org)
+#### Security (1)
 
-#### Tags
+Authentication, trust centre, and vulnerability disclosure.
 
-- Developer Tools
-- Playground
-- Schema Editor
+- [Taxi Domain Security](https://apis.io/security/taxi/taxi-domain-security/)
 
-#### Properties
+#### Plans and pricing (1)
 
-- [Documentation](https://playground.taxilang.org)
-- [Postman Collection](collections/taxi-language.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/taxi-language.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Published plans, tiers and prices.
 
-## Common Properties
+- [Taxi Plans Pricing](https://apis.io/plans/taxi/taxi-plans-pricing/)
 
-- [LinkedIn](https://www.linkedin.com/company/taxi)
+#### Rate limits (1)
+
+Published request limits.
+
+- [Taxi Rate Limits](https://apis.io/rate-limits/taxi/taxi-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Taxi Finops](https://apis.io/finops/taxi/taxi-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
 - [Website](https://taxilang.org/)
 - [Documentation](https://docs.taxilang.org/)
-- [Git Hub  Org](https://github.com/taxilang)
-- [Playground](https://playground.taxilang.org)
-- [Slack](https://join.slack.com/t/taxi-lang/shared_invite)
-- [OpenAPI](openapi/taxi-language-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [JSON Schema](json-schema/taxi-schema-definition-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Structure](json-structure/taxi-schema-structure.json)
-- [JSON-LD](json-ld/taxi-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [Vocabulary](vocabulary/taxi-vocabulary.yml)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 26.4** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 57.1 |
+| Contract quality | 50.3 |
+| Contract governance | 27.3 |
+| Operational transparency | 13.2 |
+| Developer ergonomics | 14.3 |
+| Access clarity | 7.9 |
+
+**Agent readiness 15.4** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | — |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 10.8** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/taxi/](https://apis.io/providers/taxi/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Taxi - Describe How Your APIs and Data Relate: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/taxi/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
